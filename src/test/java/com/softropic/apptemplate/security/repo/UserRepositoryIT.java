@@ -4,6 +4,7 @@ package com.softropic.apptemplate.security.repo;
 import com.softropic.apptemplate.common.validation.PhoneNumber;
 import com.softropic.apptemplate.common.validation.Provider;
 import com.softropic.apptemplate.config.TestConfig;
+import com.softropic.apptemplate.security.SecurityIT;
 import com.softropic.apptemplate.security.domain.Address;
 import com.softropic.apptemplate.security.domain.User;
 import com.softropic.apptemplate.security.repository.UserRepository;
@@ -11,10 +12,11 @@ import com.softropic.apptemplate.security.repository.UserRepository;
 import org.instancio.Instancio;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.Import;
 import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.context.TestPropertySource;
+import org.springframework.test.context.jdbc.Sql;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -26,10 +28,11 @@ import java.util.Set;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 @ActiveProfiles("dev")
-@DataJpaTest(properties = {"ledger.database.spy=true", "enable.test.mail=true"})
-@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT,
+                properties = {"ledger.database.spy=true", "enable.test.mail=true"})
 @Import(TestConfig.class)
-@Transactional
+@TestPropertySource(properties = "spring.cloud.compatibility-verifier.enabled=false")
+@Sql({SecurityIT.SEC_DATA_SQL_PATH})
 class UserRepositoryIT {
 
     @Autowired
