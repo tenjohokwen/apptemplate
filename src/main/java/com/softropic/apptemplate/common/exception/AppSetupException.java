@@ -1,0 +1,7 @@
+package com.softropic.apptemplate.common.exception;
+
+public class AppSetupException extends ApplicationException {
+    public AppSetupException(String msg) {
+        super(msg);
+    }
+}

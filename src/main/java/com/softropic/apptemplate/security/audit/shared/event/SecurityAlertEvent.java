@@ -1,0 +1,23 @@
+package com.softropic.apptemplate.security.audit.shared.event;
+
+
+
+import com.softropic.apptemplate.common.exception.ApplicationException;
+
+import org.springframework.security.core.AuthenticationException;
+
+public class SecurityAlertEvent extends SecurityEvent<Exception> {
+
+    public SecurityAlertEvent(Exception exception, String logId) {
+        super(exception, logId);
+    }
+
+    public boolean isAuthenticationException() {
+        return exception instanceof AuthenticationException;
+    }
+
+    public boolean isApplicationException() {
+        return exception instanceof ApplicationException;
+    }
+
+}
