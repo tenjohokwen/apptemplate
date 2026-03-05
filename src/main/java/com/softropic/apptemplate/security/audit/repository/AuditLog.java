@@ -34,7 +34,6 @@ public class AuditLog extends AbstractAuditingEntity {
     @Column(name = "is_authenticated", nullable = false)
     private Boolean isAuthenticated;
 
-    //TODO add a session id. This will be important for traceability / correlation
 
     @JdbcTypeCode(SqlTypes.JSON)
     @Column(columnDefinition = "jsonb", name = "relevant_properties", updatable = false)

@@ -21,6 +21,7 @@ public enum SecurityError implements ErrorCode {
     JWT_PARSE_ERROR,
     JWT_EXPIRED,
     PWD_RESET_REJECTED, //rejected password reset
+    PASSWORD_RESET_FAILED,
     INVALID_LOGIN_INFO_ID, //attempt to fetch loginInfo using a non-existent id, missing in payload from client
     OTP_MISMATCH, //fetched loginInfo has a different otp from the expected otp
     OTP_EXPIRED,

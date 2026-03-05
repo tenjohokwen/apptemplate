@@ -50,6 +50,7 @@ class UserServiceIT {
     public static final String  USER_DATA_SQL_PATH = "/sql/userData.sql";
     private static final String LOGIN_NAME         = "me@yahoo.com";
     public static final String SEC_DATA_SQL_PATH = "/sql/secData.sql";
+    public static final String AUTHORITY_SQL_PATH = "/sql/authorityData.sql";
 
     @Autowired
     private UserService userService;
@@ -92,7 +93,7 @@ class UserServiceIT {
     }
 
     @Test
-    @Sql({USER_DATA_SQL_PATH, SEC_DATA_SQL_PATH})
+    @Sql({AUTHORITY_SQL_PATH, USER_DATA_SQL_PATH, SEC_DATA_SQL_PATH})
     void createUser() {
         final UserDto userDTO = getUserData();
         final User user = userMapper.toUser(userDTO);
@@ -117,7 +118,7 @@ class UserServiceIT {
     }
 
     @Test
-    @Sql({USER_DATA_SQL_PATH, SEC_DATA_SQL_PATH})
+    @Sql({AUTHORITY_SQL_PATH, USER_DATA_SQL_PATH, SEC_DATA_SQL_PATH})
     void activateUser() {
         final UserDto userDTO = getUserData();
         final User user = userMapper.toUser(userDTO);
@@ -135,7 +136,7 @@ class UserServiceIT {
     }
 
     @Test
-    @Sql({USER_DATA_SQL_PATH, SEC_DATA_SQL_PATH})
+    @Sql({AUTHORITY_SQL_PATH, USER_DATA_SQL_PATH, SEC_DATA_SQL_PATH})
     void testPasswordReset() {
         //user: loginId: me@yahoo.com p/w: admin*123!
         final String email = "me@yahoo.com";
@@ -165,7 +166,7 @@ class UserServiceIT {
     }
 
     @Test
-    @Sql({USER_DATA_SQL_PATH, SEC_DATA_SQL_PATH})
+    @Sql({AUTHORITY_SQL_PATH, USER_DATA_SQL_PATH, SEC_DATA_SQL_PATH})
     void testAddressUpdate() {
         initSecurityContext();
         final Address address = Instancio.create(Address.class);
@@ -198,7 +199,7 @@ class UserServiceIT {
     }
 
     @Test
-    @Sql({USER_DATA_SQL_PATH, SEC_DATA_SQL_PATH})
+    @Sql({AUTHORITY_SQL_PATH, USER_DATA_SQL_PATH, SEC_DATA_SQL_PATH})
     void findUserWithAuthoritiesByLogin() {
         initSecurityContext();
         final Optional<User> userOpt = userService.findUserWithAuthoritiesByLogin(LOGIN_NAME);
@@ -208,7 +209,7 @@ class UserServiceIT {
     }
 
     @Test
-    @Sql({USER_DATA_SQL_PATH, SEC_DATA_SQL_PATH})
+    @Sql({AUTHORITY_SQL_PATH, USER_DATA_SQL_PATH, SEC_DATA_SQL_PATH})
     void lockUserAccount() {
         initAdminSecurityContext();
         final Optional<User> userOpt = userAdminService.lockUserAccount(LOGIN_NAME);
@@ -237,11 +238,12 @@ class UserServiceIT {
         userDto.setFirstName("Test");
         userDto.setLastName("User");
         userDto.setNationalId("nationalIdQ");
+        userDto.setAuthorities(Set.of("ROLE_USER"));
         return userDto;
     }
 
     private PhoneNumber generatePhone() {
-        final String prefix = "0179";
+        final String prefix = "65";
         final Optional<String> strOpt = new Random().ints(7, 0, 9)
                                                             .mapToObj(String::valueOf)
                                                             .reduce((x, y) -> x + y);

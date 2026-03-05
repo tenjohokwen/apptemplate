@@ -30,7 +30,7 @@
 			<java.version>17</java.version>
 			<org.mapstruct.version>1.6.3</org.mapstruct.version>
 			<node.version>v22.16.0</node.version>
-			<spring-cloud.version>2024.0.0</spring-cloud.version>
+			<spring-cloud.version>2025.0.1</spring-cloud.version>
 		</properties>
 	
 		<dependencyManagement>
@@ -397,6 +397,18 @@
 								</resource>
 							</resources>
 						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-failsafe-plugin</artifactId>
+				<executions>
+					<execution>
+						<goals>
+							<goal>integration-test</goal>
+							<goal>verify</goal>
+						</goals>
 					</execution>
 				</executions>
 			</plugin>
