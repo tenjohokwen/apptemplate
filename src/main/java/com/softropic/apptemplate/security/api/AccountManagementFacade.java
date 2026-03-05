@@ -39,6 +39,7 @@ import java.util.UUID;
 
 import io.micrometer.common.util.StringUtils;
 
+import static com.softropic.apptemplate.security.exposed.exception.SecurityError.EMAIL_OR_PW_MISMATCH;
 import static com.softropic.apptemplate.security.exposed.exception.SecurityError.PWD_RESET_REJECTED;
 
 
@@ -154,33 +155,31 @@ public class AccountManagementFacade {
 
     @RateLimited(key = "resend_registration", capacity = 3, duration = 30)
     public String resendRegistrationLink(String login, String password) {
-        final Optional<User> userByLogin = userService.findUserByLogin(login);
-        if(userByLogin.isPresent()) {
-            final User user = userByLogin.get();
-            if(user.getActivationDate() == null && passwordResetService.isPasswordMatch(password, user.getPassword())) {
-                // Use email strategy for resending activation link
-                return emailStrategy.notifyNewUser(user);
-            }
-        }
-        // TODO: Special log to indicate security issue. Output the login used
-        return null;
+        return userService.findUserByLogin(login)
+                .filter(user -> user.getActivationDate() == null)
+                .filter(user -> passwordResetService.isPasswordMatch(password, user.getPassword()))
+                .map(emailStrategy::notifyNewUser)
+                .orElseThrow(() -> new OperationNotAllowedException("Resending registration link not allowed.",
+                        Map.of("login", login),
+                        EMAIL_OR_PW_MISMATCH));
     }
 
+    @RateLimited(key = "change_email", capacity = 5, duration = 60)
     public String changeEmail(String oldEmail, String newEmail, String password) {
-        final Optional<User> userOpt = userProfileService.updateUserEmail(oldEmail, newEmail, password);
-        if(userOpt.isPresent()) {
-            final User user = userOpt.get();
-            Map<String, Object> dataMap = ClientContextProvider.getClientContextMap();
-            dataMap.put("action", "EMAIL_CHANGED");
-            dataMap.put("oldValue", oldEmail);
-            dataMap.put("newValue", newEmail);
-            return sendMail(EmailTemplate.PROFILE_CHANGE,
+        return userProfileService.updateUserEmail(oldEmail, newEmail, password)
+                .map(user -> {
+                    Map<String, Object> dataMap = ClientContextProvider.getClientContextMap();
+                    dataMap.put("action", "EMAIL_CHANGED");
+                    dataMap.put("oldValue", oldEmail);
+                    dataMap.put("newValue", newEmail);
+                    return sendMail(EmailTemplate.PROFILE_CHANGE,
                             LocalDateTime.now(ClockProvider.getClock()).plusDays(7),
                             dataMap,
                             user);
-        }
-        // Should actually not reach here
-        return null;
+                })
+                .orElseThrow(() -> new OperationNotAllowedException("Email change not allowed.",
+                        Map.of("oldEmail", oldEmail, "newEmail", newEmail),
+                        EMAIL_OR_PW_MISMATCH));
     }
 
     private String sendMail(EmailTemplate emailTemplate,

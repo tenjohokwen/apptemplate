@@ -189,7 +189,7 @@ public class CamMobileValidator {
     /**
      * Demo method to test the validator
      */
-    public static void main(String[] args) {
+    /*public static void main(String[] args) {
         // Test cases
         String[] testNumbers = {
                 "688684749",     // MTN - valid
@@ -206,7 +206,7 @@ public class CamMobileValidator {
                 "688 684 749"    // Invalid - contains spaces
         };
 
-    }
+    }*/
 
     public enum InvalidMobileNumberError implements ErrorCode {
         CAMO_INVALID_DIGIT_COUNT,
