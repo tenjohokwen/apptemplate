@@ -100,7 +100,11 @@ public class ClaimsExtractorImpl implements ClaimsExtractor {
         final String token = CookieUtil.getCookieValue(request, JWT_COOKIE_NAME);
         if (StringUtils.isNotBlank(token)) {
             final Claims claims = extractClaims(token);
-            return Instant.ofEpochMilli(((Number) claims.get(DB_REFRESH_TOKEN)).longValue()).toEpochMilli();
+            Object refreshToken = claims.get(DB_REFRESH_TOKEN);
+            if (refreshToken == null) {
+                return null;
+            }
+            return Instant.ofEpochMilli(((Number) refreshToken).longValue()).toEpochMilli();
         }
         return null;
     }

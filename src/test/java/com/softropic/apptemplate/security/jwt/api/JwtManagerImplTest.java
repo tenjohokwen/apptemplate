@@ -42,6 +42,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Set;
 import java.util.UUID;
 import java.util.stream.Stream;
@@ -82,6 +83,12 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.reset;
 import static org.mockito.Mockito.when;
 
+
+import static com.softropic.apptemplate.security.common.util.SecurityConstants.ANONYMOUS_SESSION_COOKIE;
+import static com.softropic.apptemplate.security.common.util.SecurityConstants.LOGIN_INFO_ID;
+import static com.softropic.apptemplate.security.common.util.SecurityConstants.OTP_TTL;
+import static com.softropic.apptemplate.security.exposed.exception.SecurityError.MISSING_JWT_PRINCIPAL;
+import static org.assertj.core.api.Assertions.assertThatCode;
 
 public class JwtManagerImplTest {
 
@@ -169,6 +176,7 @@ public class JwtManagerImplTest {
                 .otpEnabled(true)
                 .gender(Gender.MALE)
                 .displayName("TestUserDisplayName")
+                .businessId("bus123")
                 .build();
     }
 
@@ -219,6 +227,8 @@ public class JwtManagerImplTest {
         when(request.getHeader("user-agent")).thenReturn(userAgent);
         final String apiKey = "API_KEY";
         when(request.getHeader(API_KEY_HEADER)).thenReturn(apiKey);
+        final String sessionId = "test-session-id";
+        when(request.getSession(true)).thenReturn(new org.springframework.mock.web.MockHttpSession(null, sessionId));
         when(request.getRequestURL()).thenReturn(new StringBuffer("http:/local/host/path"));
         RequestMetadataProvider.initRequestMetadata(request);
     }
@@ -283,12 +293,26 @@ public class JwtManagerImplTest {
         }
     }
 
+    @Test
+    void testCreateLoginToken_adminRole_shouldSetAdminCookie() throws JsonProcessingException {
+        HttpServletResponse mockResponse = new MockHttpServletResponse();
+        initRequestMetadata();
+
+        Set<SimpleGrantedAuthority> authorities = Set.of(new SimpleGrantedAuthority("ROLE_ADMIN"));
+        Principal principal = createPrincipal(authorities);
+
+        jwtManager.createLoginToken(mockResponse, principal);
+
+        String adminCookie = extractCookie(mockResponse, ADMIN_COOKIE);
+        assertThat(adminCookie).isEqualTo("admin");
+    }
+
     private static String extractCookie(HttpServletResponse mockResponse, String cookieName) {
         final String jwtKeyValue = mockResponse.getHeaders("Set-Cookie")
                                                .stream()
                                                .filter(str -> str.contains(cookieName+"="))
                                                .findFirst()
-                                               .get(); // potc
+                                               .orElseThrow(() -> new RuntimeException("Cookie not found: " + cookieName));
 
         final List<HttpCookie> cookies = HttpCookie.parse(jwtKeyValue);
         HttpCookie httpCookie = cookies.get(0);
@@ -613,6 +637,50 @@ public class JwtManagerImplTest {
 
     }
 
+    @Test
+    void testExtendTtlOfToken_anonymousPrincipal_shouldThrowException() {
+        initRequestMetadata();
+        HttpServletRequest mockRequest = mock(HttpServletRequest.class);
+        HttpServletResponse mockResponse = mock(HttpServletResponse.class);
+
+        try (MockedStatic<CookieUtil> mockedCookieUtil = Mockito.mockStatic(CookieUtil.class)) {
+            // No cookie -> Anonymous principal
+            mockedCookieUtil.when(() -> CookieUtil.getCookieValue(mockRequest, JWT_COOKIE_NAME)).thenReturn(null);
+
+            InvalidJWTDataException exception = org.junit.jupiter.api.Assertions.assertThrows(
+                    InvalidJWTDataException.class,
+                    () -> jwtManager.extendTtlOfToken(mockRequest, mockResponse)
+            );
+            assertThat(exception.getErrorCode()).isEqualTo(MISSING_JWT_PRINCIPAL);
+        }
+    }
+
+    @Test
+    void testExtendTtlOfToken_missingDbRefreshToken_shouldThrowException() {
+        initRequestMetadata();
+        Set<SimpleGrantedAuthority> authorities = Set.of(new SimpleGrantedAuthority(ROLE_USER));
+        Principal principal = createPrincipal(authorities);
+
+        // Build token WITHOUT dbRefreshToken
+        Map<String, Object> claims = new HashMap<>();
+        claims.put(SUBJECT, principal.getUsername());
+        claims.put(ROLES, "[]");
+        String token = buildTokenWithCustomClaims(claims, Instant.now(ClockProvider.getClock()).plus(JWT_TTL), secret);
+
+        HttpServletRequest mockRequest = mock(HttpServletRequest.class);
+        HttpServletResponse mockResponse = mock(HttpServletResponse.class);
+
+        try (MockedStatic<CookieUtil> mockedCookieUtil = Mockito.mockStatic(CookieUtil.class)) {
+            mockedCookieUtil.when(() -> CookieUtil.getCookieValue(mockRequest, JWT_COOKIE_NAME)).thenReturn(token);
+
+            InvalidJWTDataException exception = org.junit.jupiter.api.Assertions.assertThrows(
+                    InvalidJWTDataException.class,
+                    () -> jwtManager.extendTtlOfToken(mockRequest, mockResponse)
+            );
+            assertThat(exception.getErrorCode()).isEqualTo(MISSING_JWT_DB_REFRESH_TOKEN);
+        }
+    }
+
     // --- isTokenFixed Tests ---
     @ParameterizedTest
     @MethodSource("claimsData")
@@ -694,14 +762,130 @@ public class JwtManagerImplTest {
         assertThat(exception.getErrorCode()).isEqualTo(MISSING_JWT_DB_REFRESH_TOKEN);
     }
 
-    /*@Test
-    void test() {
-        final Clock clock = ClockProvider.getClock();
-        final LocalDateTime now = LocalDateTime.now(clock);
-        final ZonedDateTime zonedDateTime = ZonedDateTime.now(clock);
-        System.out.println("Local date time: " + now);
-        System.out.println("Local date time: " + LocalDateTime.now());
-        System.out.println("Zoned date time: " + zonedDateTime);
-    }*/
+    @Test
+    void testGenerateAnonymousSession() {
+        initRequestMetadata();
+        HttpServletResponse mockResponse = new MockHttpServletResponse();
+        
+        String sessionId = jwtManager.generateAnonymousSession(mockResponse);
+        
+        assertThat(sessionId).isEqualTo(RequestMetadataProvider.getClientInfo().getSessionId());
+        String cookieValue = extractCookie(mockResponse, ANONYMOUS_SESSION_COOKIE);
+        assertThat(cookieValue).isEqualTo(sessionId);
+    }
+
+    @Test
+    void testRemoveTwoFactorCookie() {
+        HttpServletResponse mockResponse = new MockHttpServletResponse();
+        jwtManager.removeTwoFactorCookie(mockResponse);
+        
+        String cookieHeader = mockResponse.getHeader("Set-Cookie");
+        assertThat(cookieHeader).contains(LOGIN_INFO_ID + "=");
+        assertThat(cookieHeader).contains("Max-Age=0");
+    }
+
+    @Test
+    void testAddLoginInfoIdCookie() {
+        HttpServletResponse mockResponse = new MockHttpServletResponse();
+        String val = "test-val";
+        jwtManager.addLoginInfoIdCookie(mockResponse, val);
+        
+        String cookieValue = extractCookie(mockResponse, LOGIN_INFO_ID);
+        assertThat(cookieValue).isEqualTo(val);
+        // Verify TTL
+        String cookieHeader = mockResponse.getHeader("Set-Cookie");
+        assertThat(cookieHeader).contains("Max-Age=" + OTP_TTL.toSeconds());
+    }
+
+    @Test
+    void testExtractLoginInfoIdCookie() {
+        HttpServletRequest mockRequest = mock(HttpServletRequest.class);
+        String val = "test-val";
+        try (MockedStatic<CookieUtil> mockedCookieUtil = Mockito.mockStatic(CookieUtil.class)) {
+            mockedCookieUtil.when(() -> CookieUtil.getCookieValue(mockRequest, LOGIN_INFO_ID)).thenReturn(val);
+            
+            String extracted = jwtManager.extractLoginInfoIdCookie(mockRequest);
+            assertThat(extracted).isEqualTo(val);
+        }
+    }
+
+    @Test
+    void testEnsureAuthTokenPresent() {
+        HttpServletRequest mockRequest = mock(HttpServletRequest.class);
+        try (MockedStatic<CookieUtil> mockedCookieUtil = Mockito.mockStatic(CookieUtil.class)) {
+            mockedCookieUtil.when(() -> CookieUtil.getCookieValue(mockRequest, JWT_COOKIE_NAME)).thenReturn("some-token");
+            assertThatCode(() -> jwtManager.ensureAuthTokenPresent(mockRequest)).doesNotThrowAnyException();
+            
+            mockedCookieUtil.when(() -> CookieUtil.getCookieValue(mockRequest, JWT_COOKIE_NAME)).thenReturn(null);
+            assertThrows(org.springframework.security.access.AccessDeniedException.class, 
+                    () -> jwtManager.ensureAuthTokenPresent(mockRequest));
+        }
+    }
+
+    @Test
+    void testExtractUserNameSilently() {
+        initRequestMetadata();
+        Set<SimpleGrantedAuthority> authorities = Set.of(new SimpleGrantedAuthority(ROLE_USER));
+        Principal principal = createPrincipal(authorities);
+        String token = jwtManager.generateToken(principal, "seed");
+
+        HttpServletRequest mockRequest = mock(HttpServletRequest.class);
+        try (MockedStatic<CookieUtil> mockedCookieUtil = Mockito.mockStatic(CookieUtil.class)) {
+            mockedCookieUtil.when(() -> CookieUtil.getCookieValue(mockRequest, JWT_COOKIE_NAME)).thenReturn(token);
+            
+            String username = jwtManager.extractUserNameSilently(mockRequest);
+            assertThat(username).isEqualTo(principal.getUsername());
+            
+            mockedCookieUtil.when(() -> CookieUtil.getCookieValue(mockRequest, JWT_COOKIE_NAME)).thenReturn(null);
+            assertThat(jwtManager.extractUserNameSilently(mockRequest)).isNull();
+        }
+    }
+
+    @Test
+    void testExtractSessionIdSilently() {
+        initRequestMetadata();
+        Set<SimpleGrantedAuthority> authorities = Set.of(new SimpleGrantedAuthority(ROLE_USER));
+        Principal principal = createPrincipal(authorities);
+        String token = jwtManager.generateToken(principal, "seed");
+
+        HttpServletRequest mockRequest = mock(HttpServletRequest.class);
+        try (MockedStatic<CookieUtil> mockedCookieUtil = Mockito.mockStatic(CookieUtil.class)) {
+            mockedCookieUtil.when(() -> CookieUtil.getCookieValue(mockRequest, JWT_COOKIE_NAME)).thenReturn(token);
+            
+            Optional<String> sessionId = jwtManager.extractSessionIdSilently(mockRequest);
+            assertThat(sessionId).isPresent().contains(RequestMetadataProvider.getClientInfo().getSessionId());
+            
+            mockedCookieUtil.when(() -> CookieUtil.getCookieValue(mockRequest, JWT_COOKIE_NAME)).thenReturn(null);
+            assertThat(jwtManager.extractSessionIdSilently(mockRequest)).isEmpty();
+        }
+    }
+
+    @Test
+    void testEnsureClientHasPreLoginId() {
+        initRequestMetadata();
+        // Machine client has API key, so should not throw
+        assertThatCode(() -> jwtManager.ensureClientHasPreLoginId()).doesNotThrowAnyException();
+        
+        RequestMetadataProvider.cleanup();
+        HttpServletRequest mockRequest = mock(HttpServletRequest.class);
+        when(mockRequest.getRequestURL()).thenReturn(new StringBuffer("http://localhost"));
+        // No API key, no fingerprint cookie -> should throw
+        RequestMetadataProvider.initRequestMetadata(mockRequest);
+        assertThrows(MissingClientIdException.class, () -> jwtManager.ensureClientHasPreLoginId());
+    }
+
+    @Test
+    void testEnsureClientHasPostLoginId() {
+        initRequestMetadata();
+        // Machine client has API key, so should not throw
+        assertThatCode(() -> jwtManager.ensureClientHasPostLoginId()).doesNotThrowAnyException();
+        
+        RequestMetadataProvider.cleanup();
+        HttpServletRequest mockRequest = mock(HttpServletRequest.class);
+        when(mockRequest.getRequestURL()).thenReturn(new StringBuffer("http://localhost"));
+        // No API key, no browser cookie -> should throw
+        RequestMetadataProvider.initRequestMetadata(mockRequest);
+        assertThrows(MissingClientIdException.class, () -> jwtManager.ensureClientHasPostLoginId());
+    }
 
 }
