@@ -1,5 +1,6 @@
 package com.softropic.apptemplate.security.api.registration;
 
+import com.softropic.apptemplate.security.api.ratelimit.RateLimited;
 import com.softropic.apptemplate.security.domain.User;
 
 import org.slf4j.Logger;
@@ -46,6 +47,7 @@ public class SmsRegistrationStrategy implements RegistrationNotificationStrategy
      * @return a tracking code for the SMS (currently returns a random UUID)
      */
     @Override
+    @RateLimited(key = "registration_sms", capacity = 2, duration = 5)
     public String notifyNewUser(final User user) {
         LOGGER.warn("SMS notification requested for new user {}, but SMS is not yet implemented",
                     user.getLogin());
@@ -64,12 +66,13 @@ public class SmsRegistrationStrategy implements RegistrationNotificationStrategy
      * <b>TODO:</b> Implement SMS notification for duplicate registration attempts.
      * Should alert existing user that someone tried to register with their number.
      * <p>
-     * <b>Security Note:</b> Must implement rate limiting to prevent enumeration attacks.
+     * <b>Security Note:</b> Rate limiting is enforced via @RateLimited aspect.
      *
      * @param user the existing user whose phone was used in registration attempt
      * @return a tracking code for the SMS (currently returns a random UUID)
      */
     @Override
+    @RateLimited(key = "registration_alert_sms", capacity = 2, duration = 5)
     public String notifyUserExists(final User user) {
         LOGGER.warn("SMS notification requested for existing user {}, but SMS is not yet implemented",
                     user.getLogin());

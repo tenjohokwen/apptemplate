@@ -6,6 +6,7 @@ import com.softropic.apptemplate.email.api.Envelope;
 import com.softropic.apptemplate.email.api.Recipient;
 import com.softropic.apptemplate.security.exposed.util.ClientContextProvider;
 import com.softropic.apptemplate.security.exposed.util.ShortCode;
+import com.softropic.apptemplate.security.api.ratelimit.RateLimited;
 import com.softropic.apptemplate.security.domain.User;
 
 import org.slf4j.Logger;
@@ -66,6 +67,7 @@ public class EmailRegistrationStrategy implements RegistrationNotificationStrate
      * @return a short tracking code that can be used for support reference
      */
     @Override
+    @RateLimited(key = "registration_email", capacity = 2, duration = 5) // Max 2 emails per 5 minutes per IP
     public String notifyNewUser(final User user) {
         final Map<String, Object> dataMap = ClientContextProvider.getClientContextMap();
         dataMap.put("activationKey", user.getActivationKey());
@@ -94,10 +96,8 @@ public class EmailRegistrationStrategy implements RegistrationNotificationStrate
      * @return a short tracking code that can be used for support reference
      */
     @Override
+    @RateLimited(key = "registration_alert_email", capacity = 2, duration = 5)
     public String notifyUserExists(final User user) {
-        // TODO: Implement rate limiting check - if client is blacklisted, short-circuit
-        // (do not send email) but use a delay function to prevent timing attacks
-
         final Map<String, Object> dataMap = ClientContextProvider.getClientContextMap();
 
         return sendEmail(EmailTemplate.CREATION_DUP,

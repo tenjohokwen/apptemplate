@@ -11,6 +11,7 @@ import com.softropic.apptemplate.email.api.Recipient;
 import com.softropic.apptemplate.security.api.registration.EmailRegistrationStrategy;
 import com.softropic.apptemplate.security.api.registration.RegistrationNotificationStrategy;
 import com.softropic.apptemplate.security.api.registration.SmsRegistrationStrategy;
+import com.softropic.apptemplate.security.api.ratelimit.RateLimited;
 import com.softropic.apptemplate.security.exposed.ChangePasswordDto;
 import com.softropic.apptemplate.security.exposed.LoginIdType;
 import com.softropic.apptemplate.security.exposed.UserDto;
@@ -74,6 +75,7 @@ public class AccountManagementFacade {
         this.host = baseurl + ":" + serverPort;
     }
 
+    @RateLimited(key = "password_reset_request", capacity = 3, duration = 15) // 3 requests per 15 minutes
     public String sendPasswordResetMail(ChangePasswordDto changePasswordDto) {
         return passwordResetService.prepareForPasswordReset(changePasswordDto)
                           .map(user -> {
@@ -91,6 +93,7 @@ public class AccountManagementFacade {
                                                                                PWD_RESET_REJECTED));
     }
 
+    @RateLimited(key = "password_reset_finish", capacity = 5, duration = 10)
     public User finishPasswordReset(final KeyAndPasswordDto keyAndPassword) {
         return passwordResetService.completePasswordReset(keyAndPassword.password(), keyAndPassword.key())
                           .orElseThrow(() -> new OperationNotAllowedException("The account state does not permit the reset of the password.",
@@ -111,8 +114,7 @@ public class AccountManagementFacade {
      *   <li>Delegates to strategies that implement rate limiting</li>
      * </ul>
      * <p>
-     * <b>TODO:</b> Implement rate limiting - if called above threshold, blacklist client
-     * and short-circuit (delayed to avoid timing attacks).
+     * <b>Security implementation:</b> Rate limiting is enforced via @RateLimited aspect.
      * <p>
      * <b>TODO:</b> Messaging module should avoid sending duplicate notifications to
      * the same user within 5 minutes.
@@ -120,6 +122,7 @@ public class AccountManagementFacade {
      * @param userDTO the user registration data
      * @return a tracking code for the notification sent
      */
+    @RateLimited(key = "account_registration", capacity = 5, duration = 60) // 5 registrations per hour per IP
     public String registerAccount(final UserDto userDTO) {
         final Optional<User> optionalUser = userRegistrationService.findUserByEmailOrLogin(
             userDTO.getEmail() != null ? userDTO.getEmail().toLowerCase() : null,
@@ -149,6 +152,7 @@ public class AccountManagementFacade {
         // expose valid logins to attackers.
     }
 
+    @RateLimited(key = "resend_registration", capacity = 3, duration = 30)
     public String resendRegistrationLink(String login, String password) {
         final Optional<User> userByLogin = userService.findUserByLogin(login);
         if(userByLogin.isPresent()) {

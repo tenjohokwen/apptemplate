@@ -30,6 +30,7 @@ public enum SecurityError implements ErrorCode {
     INVALID_OTP, //missing in payload from client
     LOGIN_ID_MISMATCH,
     EMAIL_OR_PW_MISMATCH,
+    TOO_MANY_REQUESTS,
     IO_RESPONSE_ERROR,
     UNKNOWN;
 
