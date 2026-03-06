@@ -1,6 +1,7 @@
 package com.softropic.apptemplate.security.audit.filter;
 
 
+import com.softropic.apptemplate.common.util.BodySanitizer;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.web.servlet.util.matcher.PathPatternRequestMatcher;
@@ -65,10 +66,10 @@ public class LoggingFilter extends OncePerRequestFilter {
         final Map<String, List<String>> requestHeaders = getRequestHeaders(request);
         byte[] content = request.getContentAsByteArray();
         if (content.length > 0) {
-            //TODO Use secretService to encrypt Body
+            String sanitizedBody = BodySanitizer.sanitize(content, request.getContentType());
             log.info("Request Headers: [{}], Request payload: [{}], Request URL: [{}]",
                         requestHeaders,
-                        new String(request.getContentAsByteArray(), StandardCharsets.UTF_8),
+                        sanitizedBody,
                         request.getRequestURL());
         } else {
             log.info("Request Headers: [{}], Request URL: [{}]", requestHeaders, request.getRequestURL());
@@ -103,8 +104,8 @@ public class LoggingFilter extends OncePerRequestFilter {
 
         byte[] content = response.getContentAsByteArray();
         if (content.length > 0) {
-            //TODO Use secretService to encrypt Body
-            log.info("Response Headers: {}, Response payload: [{}]", headers, new String(response.getContentAsByteArray(), StandardCharsets.UTF_8));
+            String sanitizedBody = BodySanitizer.sanitize(content, response.getContentType());
+            log.info("Response Headers: {}, Response payload: [{}]", headers, sanitizedBody);
         } else {
             log.info("Response Headers: {}", headers);
         }
