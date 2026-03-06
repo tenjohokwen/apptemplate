@@ -2,8 +2,7 @@ package com.softropic.apptemplate.security.core.mapper;
 
 
 
-import com.softropic.apptemplate.common.dto.PhoneNumberDto;
-import com.softropic.apptemplate.common.validation.CamMobileValidator;
+import com.softropic.apptemplate.common.util.PhoneNumberUtil;
 import com.softropic.apptemplate.common.validation.PhoneNumber;
 import com.softropic.apptemplate.security.api.dto.AddressDto;
 import com.softropic.apptemplate.security.domain.Address;
@@ -16,7 +15,6 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
 
-import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -76,21 +74,7 @@ public interface UserMapper {
         return phoneNumber != null ? phoneNumber.getPhone() : null;
     }
 
-    /**
-     * Maps String to PhoneNumber entity (for toUser).
-     * Uses CamMobileValidator to enrich with provider and country code.
-     */
     default PhoneNumber stringToPhoneNumber(String phone) {
-        if (phone == null || phone.isBlank()) {
-            return null;
-        }
-        PhoneNumber phoneNumber = new PhoneNumber();
-        PhoneNumberDto phoneNoDto = CamMobileValidator.validate(phone);
-        phoneNumber.setPhone(phoneNoDto.getPhone());
-        phoneNumber.setIso2Country(phoneNoDto.getIso2Country());
-        phoneNumber.setPhoneType(Objects.equals(phoneNoDto.getPhoneType(), PhoneNumberDto.PhoneType.MOBILE)
-                ? PhoneNumber.PhoneType.MOBILE : PhoneNumber.PhoneType.FIXED);
-        phoneNumber.setProvider(phoneNoDto.getProvider());
-        return phoneNumber;
+        return PhoneNumberUtil.fromString(phone);
     }
 }

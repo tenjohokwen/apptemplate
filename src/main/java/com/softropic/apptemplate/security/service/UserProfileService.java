@@ -1,8 +1,7 @@
 package com.softropic.apptemplate.security.service;
 
 import com.softropic.apptemplate.common.Gender;
-import com.softropic.apptemplate.common.dto.PhoneNumberDto;
-import com.softropic.apptemplate.common.validation.CamMobileValidator;
+import com.softropic.apptemplate.common.util.PhoneNumberUtil;
 import com.softropic.apptemplate.common.validation.PhoneNumber;
 import com.softropic.apptemplate.security.exposed.event.AccountChangeEvent;
 import com.softropic.apptemplate.security.exposed.event.AccountChangeUserInfo;
@@ -22,7 +21,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Map;
-import java.util.Objects;
 import java.util.Optional;
 
 import lombok.RequiredArgsConstructor;
@@ -241,27 +239,8 @@ public class UserProfileService {
                 });
     }
 
-    /**
-     * Converts a phone string to a PhoneNumber entity using CamMobileValidator.
-     *
-     * @param phone the phone string
-     * @return the PhoneNumber entity, or null if phone is blank
-     */
     private PhoneNumber toPhoneNumber(String phone) {
-        if (phone == null || phone.isBlank()) {
-            return null;
-        }
-
-        PhoneNumber phoneNumber = new PhoneNumber();
-        final PhoneNumberDto phoneNoDto = CamMobileValidator.validate(phone);
-
-        phoneNumber.setPhone(phoneNoDto.getPhone());
-        phoneNumber.setIso2Country(phoneNoDto.getIso2Country());
-        phoneNumber.setPhoneType(Objects.equals(phoneNoDto.getPhoneType(), PhoneNumberDto.PhoneType.MOBILE)
-                ? PhoneNumber.PhoneType.MOBILE : PhoneNumber.PhoneType.FIXED);
-        phoneNumber.setProvider(phoneNoDto.getProvider());
-
-        return phoneNumber;
+        return PhoneNumberUtil.fromString(phone);
     }
 
     private AccountChangeUserInfo buildUserInfo(User user) {
