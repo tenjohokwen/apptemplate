@@ -4,8 +4,8 @@ import com.softropic.apptemplate.common.Gender;
 import com.softropic.apptemplate.common.dto.PhoneNumberDto;
 import com.softropic.apptemplate.common.validation.CamMobileValidator;
 import com.softropic.apptemplate.common.validation.PhoneNumber;
-import com.softropic.apptemplate.email.api.Recipient;
-import com.softropic.apptemplate.security.audit.shared.event.AccountChangeEvent;
+import com.softropic.apptemplate.security.exposed.event.AccountChangeEvent;
+import com.softropic.apptemplate.security.exposed.event.AccountChangeUserInfo;
 import com.softropic.apptemplate.security.common.util.SecurityConstants;
 import com.softropic.apptemplate.security.domain.Address;
 import com.softropic.apptemplate.security.domain.User;
@@ -82,12 +82,11 @@ public class UserProfileService {
                     String newAddressStr = formatAddress(address);
 
                     // Publish event for notification and audit
-                    Recipient recipient = buildRecipient(u);
                     AccountChangeEvent event = new AccountChangeEvent(
                             AccountChangeEvent.Action.ADDRESS_CHANGED,
                             oldAddressStr,
                             newAddressStr,
-                            recipient
+                            buildUserInfo(u)
                     );
                     publisher.publishEvent(event);
 
@@ -115,13 +114,19 @@ public class UserProfileService {
                 log.debug("Changed email for User: {}", u);
 
                 // Publish event for notification and audit (send to old email address)
-                Recipient recipient = buildRecipient(u);
-                recipient.setEmail(capturedOldEmail);  // Override to send notification to OLD email for security
+                AccountChangeUserInfo userInfo = new AccountChangeUserInfo(
+                        capturedOldEmail, // Override to send notification to OLD email for security
+                        u.getFirstName(),
+                        u.getLastName(),
+                        u.getLangKey(),
+                        u.getTitle(),
+                        u.getGender() != null ? u.getGender().name() : null
+                );
                 AccountChangeEvent event = new AccountChangeEvent(
                         AccountChangeEvent.Action.EMAIL_CHANGED,
                         capturedOldEmail,
                         newEmail,
-                        recipient
+                        userInfo
                 );
                 publisher.publishEvent(event);
 
@@ -157,12 +162,11 @@ public class UserProfileService {
                     log.debug("Changed password for User: {}", user.getLogin());
 
                     // Publish event for notification and audit
-                    Recipient recipient = buildRecipient(user);
                     AccountChangeEvent event = new AccountChangeEvent(
                             AccountChangeEvent.Action.PASSWORD_CHANGED,
                             null,  // oldValue not applicable for password
                             null,  // newValue not applicable for password
-                            recipient
+                            buildUserInfo(user)
                     );
                     publisher.publishEvent(event);
 
@@ -188,12 +192,11 @@ public class UserProfileService {
                     log.debug("Changed phone for User: {}", user.getLogin());
 
                     // Publish event for notification and audit
-                    Recipient recipient = buildRecipient(user);
                     AccountChangeEvent event = new AccountChangeEvent(
                             AccountChangeEvent.Action.PHONE_CHANGED,
                             oldPhone,
                             phone,
-                            recipient
+                            buildUserInfo(user)
                     );
                     publisher.publishEvent(event);
 
@@ -223,7 +226,6 @@ public class UserProfileService {
                     log.debug("Changed 2FA status for User: {} to {}", user.getLogin(), enabled);
 
                     // Publish event for notification and audit
-                    Recipient recipient = buildRecipient(user);
                     AccountChangeEvent.Action action = enabled
                             ? AccountChangeEvent.Action.TWO_FACTOR_AUTH_ENABLED
                             : AccountChangeEvent.Action.TWO_FACTOR_AUTH_DISABLED;
@@ -231,7 +233,7 @@ public class UserProfileService {
                             action,
                             String.valueOf(!enabled),  // oldValue: previous state
                             String.valueOf(enabled),   // newValue: new state
-                            recipient
+                            buildUserInfo(user)
                     );
                     publisher.publishEvent(event);
 
@@ -262,21 +264,15 @@ public class UserProfileService {
         return phoneNumber;
     }
 
-    /**
-     * Builds a Recipient object from a User entity for email notifications.
-     *
-     * @param user the user entity
-     * @return the populated Recipient
-     */
-    private Recipient buildRecipient(User user) {
-        Recipient recipient = new Recipient();
-        recipient.setFirstname(user.getFirstName());
-        recipient.setLastname(user.getLastName());
-        recipient.setEmail(user.getEmail());
-        recipient.setLangKey(user.getLangKey());
-        recipient.setTitle(user.getTitle());
-        recipient.setGender(user.getGender() != null ? user.getGender().name() : null);
-        return recipient;
+    private AccountChangeUserInfo buildUserInfo(User user) {
+        return new AccountChangeUserInfo(
+                user.getEmail(),
+                user.getFirstName(),
+                user.getLastName(),
+                user.getLangKey(),
+                user.getTitle(),
+                user.getGender() != null ? user.getGender().name() : null
+        );
     }
 
     /**
