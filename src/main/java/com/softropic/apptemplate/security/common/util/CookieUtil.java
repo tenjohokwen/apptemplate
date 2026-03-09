@@ -1,7 +1,7 @@
 package com.softropic.apptemplate.security.common.util;
 
 
-import com.softropic.apptemplate.security.exposed.util.RequestMetadataProvider;
+import com.softropic.apptemplate.security.contract.util.RequestMetadataProvider;
 
 import org.springframework.http.ResponseCookie;
 import org.springframework.web.util.WebUtils;

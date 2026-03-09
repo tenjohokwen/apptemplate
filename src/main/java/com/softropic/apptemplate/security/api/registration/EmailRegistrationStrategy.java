@@ -4,10 +4,10 @@ import com.softropic.apptemplate.common.ClockProvider;
 import com.softropic.apptemplate.email.api.EmailTemplate;
 import com.softropic.apptemplate.email.api.Envelope;
 import com.softropic.apptemplate.email.api.Recipient;
-import com.softropic.apptemplate.security.exposed.util.ClientContextProvider;
-import com.softropic.apptemplate.security.exposed.util.ShortCode;
+import com.softropic.apptemplate.security.contract.util.ClientContextProvider;
+import com.softropic.apptemplate.security.contract.util.ShortCode;
 import com.softropic.apptemplate.security.api.ratelimit.RateLimited;
-import com.softropic.apptemplate.security.domain.User;
+import com.softropic.apptemplate.security.repo.User;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

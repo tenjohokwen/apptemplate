@@ -4,7 +4,7 @@ package com.softropic.apptemplate.common.consumer;
 
 import com.softropic.apptemplate.common.Gender;
 import com.softropic.apptemplate.common.validation.PhoneNumber;
-import com.softropic.apptemplate.security.domain.Address;
+import com.softropic.apptemplate.security.repo.Address;
 
 import java.io.Serializable;
 import java.time.LocalDate;

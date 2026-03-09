@@ -1,13 +1,13 @@
 package com.softropic.apptemplate.security.service;
 
 import com.softropic.apptemplate.config.TestConfig;
-import com.softropic.apptemplate.security.domain.Address;
-import com.softropic.apptemplate.security.domain.Authority;
-import com.softropic.apptemplate.security.domain.User;
-import com.softropic.apptemplate.security.exception.ProfileActionException;
-import com.softropic.apptemplate.security.exposed.Principal;
-import com.softropic.apptemplate.security.exposed.event.AccountChangeEvent;
-import com.softropic.apptemplate.security.repository.UserRepository;
+import com.softropic.apptemplate.security.repo.Address;
+import com.softropic.apptemplate.security.repo.Authority;
+import com.softropic.apptemplate.security.repo.User;
+import com.softropic.apptemplate.security.contract.exception.ProfileActionException;
+import com.softropic.apptemplate.security.contract.Principal;
+import com.softropic.apptemplate.security.contract.event.AccountChangeEvent;
+import com.softropic.apptemplate.security.repo.UserRepository;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;

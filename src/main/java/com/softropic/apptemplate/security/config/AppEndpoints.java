@@ -2,7 +2,7 @@ package com.softropic.apptemplate.security.config;
 
 
 
-import com.softropic.apptemplate.security.exposed.util.AuthoritiesConstants;
+import com.softropic.apptemplate.security.contract.util.AuthoritiesConstants;
 
 import java.util.ArrayList;
 import java.util.Arrays;

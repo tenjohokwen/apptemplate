@@ -3,10 +3,10 @@ package com.softropic.apptemplate.security.audit.listener;
 import com.softropic.apptemplate.common.ClockProvider;
 import com.softropic.apptemplate.security.audit.api.AuditTrail;
 import com.softropic.apptemplate.security.audit.service.TrailService;
-import com.softropic.apptemplate.security.exposed.event.AccountChangeEvent;
-import com.softropic.apptemplate.security.exposed.util.RequestMetadata;
-import com.softropic.apptemplate.security.exposed.util.RequestMetadataProvider;
-import com.softropic.apptemplate.security.exposed.util.ShortCode;
+import com.softropic.apptemplate.security.contract.event.AccountChangeEvent;
+import com.softropic.apptemplate.security.contract.util.RequestMetadata;
+import com.softropic.apptemplate.security.contract.util.RequestMetadataProvider;
+import com.softropic.apptemplate.security.contract.util.ShortCode;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.event.EventListener;

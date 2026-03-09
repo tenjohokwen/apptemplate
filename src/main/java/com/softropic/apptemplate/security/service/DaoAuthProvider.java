@@ -2,8 +2,8 @@ package com.softropic.apptemplate.security.service;
 
 
 
-import com.softropic.apptemplate.security.exposed.exception.AuthorizationException;
-import com.softropic.apptemplate.security.exposed.exception.SecurityError;
+import com.softropic.apptemplate.security.contract.exception.AuthorizationException;
+import com.softropic.apptemplate.security.contract.exception.SecurityError;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

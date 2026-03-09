@@ -2,11 +2,11 @@ package com.softropic.apptemplate.security.service;
 
 import com.softropic.apptemplate.common.TestClockProvider;
 import com.softropic.apptemplate.config.TestConfig;
-import com.softropic.apptemplate.security.common.domain.LoginData;
-import com.softropic.apptemplate.security.domain.LoginInfo;
-import com.softropic.apptemplate.security.exposed.exception.SecException;
-import com.softropic.apptemplate.security.exposed.util.TestRequestMetadataProvider;
-import com.softropic.apptemplate.security.repository.LoginInfoRepository;
+import com.softropic.apptemplate.security.contract.LoginData;
+import com.softropic.apptemplate.security.repo.LoginInfo;
+import com.softropic.apptemplate.security.contract.exception.SecException;
+import com.softropic.apptemplate.security.contract.util.TestRequestMetadataProvider;
+import com.softropic.apptemplate.security.repo.LoginInfoRepository;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -22,11 +22,11 @@ import java.time.Clock;
 import java.time.Instant;
 import java.time.ZoneOffset;
 
-import static com.softropic.apptemplate.security.exposed.exception.SecurityError.CLIENT_INFO_MISMATCH;
-import static com.softropic.apptemplate.security.exposed.exception.SecurityError.INVALID_LOGIN_INFO_ID;
-import static com.softropic.apptemplate.security.exposed.exception.SecurityError.OTP_ALREADY_USED;
-import static com.softropic.apptemplate.security.exposed.exception.SecurityError.OTP_EXPIRED;
-import static com.softropic.apptemplate.security.exposed.exception.SecurityError.OTP_MISMATCH;
+import static com.softropic.apptemplate.security.contract.exception.SecurityError.CLIENT_INFO_MISMATCH;
+import static com.softropic.apptemplate.security.contract.exception.SecurityError.INVALID_LOGIN_INFO_ID;
+import static com.softropic.apptemplate.security.contract.exception.SecurityError.OTP_ALREADY_USED;
+import static com.softropic.apptemplate.security.contract.exception.SecurityError.OTP_EXPIRED;
+import static com.softropic.apptemplate.security.contract.exception.SecurityError.OTP_MISMATCH;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 

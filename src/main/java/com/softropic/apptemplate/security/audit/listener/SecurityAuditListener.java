@@ -8,10 +8,10 @@ import com.softropic.apptemplate.security.audit.api.AuditTrail;
 import com.softropic.apptemplate.security.audit.service.TrailService;
 import com.softropic.apptemplate.security.audit.shared.event.SecurityAlertEvent;
 import com.softropic.apptemplate.security.common.event.AuthEvent;
-import com.softropic.apptemplate.security.exposed.Principal;
-import com.softropic.apptemplate.security.exposed.util.RequestMetadata;
-import com.softropic.apptemplate.security.exposed.util.RequestMetadataProvider;
-import com.softropic.apptemplate.security.exposed.util.SecurityUtil;
+import com.softropic.apptemplate.security.contract.Principal;
+import com.softropic.apptemplate.security.contract.util.RequestMetadata;
+import com.softropic.apptemplate.security.contract.util.RequestMetadataProvider;
+import com.softropic.apptemplate.security.service.SecurityUtil;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.event.EventListener;

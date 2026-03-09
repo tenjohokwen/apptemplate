@@ -1,7 +1,7 @@
 package com.softropic.apptemplate.common.persistence;
 
 
-import com.softropic.apptemplate.security.exposed.util.SessionIdAuditEntityListener;
+import com.softropic.apptemplate.security.contract.util.SessionIdAuditEntityListener;
 
 import org.hibernate.envers.Audited;
 import org.springframework.data.annotation.CreatedBy;

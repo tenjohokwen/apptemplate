@@ -11,13 +11,13 @@ import com.softropic.apptemplate.security.api.registration.EmailRegistrationStra
 import com.softropic.apptemplate.security.api.registration.RegistrationNotificationStrategy;
 import com.softropic.apptemplate.security.api.registration.SmsRegistrationStrategy;
 import com.softropic.apptemplate.security.api.ratelimit.RateLimited;
-import com.softropic.apptemplate.security.exposed.ChangePasswordDto;
-import com.softropic.apptemplate.security.exposed.LoginIdType;
-import com.softropic.apptemplate.security.exposed.UserDto;
-import com.softropic.apptemplate.security.exposed.exception.OperationNotAllowedException;
-import com.softropic.apptemplate.security.exposed.util.ClientContextProvider;
-import com.softropic.apptemplate.security.exposed.util.ShortCode;
-import com.softropic.apptemplate.security.domain.User;
+import com.softropic.apptemplate.security.contract.ChangePasswordDto;
+import com.softropic.apptemplate.security.contract.LoginIdType;
+import com.softropic.apptemplate.security.contract.UserDto;
+import com.softropic.apptemplate.security.contract.exception.OperationNotAllowedException;
+import com.softropic.apptemplate.security.contract.util.ClientContextProvider;
+import com.softropic.apptemplate.security.contract.util.ShortCode;
+import com.softropic.apptemplate.security.repo.User;
 import com.softropic.apptemplate.security.service.UserService;
 import com.softropic.apptemplate.security.service.UserRegistrationService;
 import com.softropic.apptemplate.security.service.UserProfileService;
@@ -39,8 +39,8 @@ import java.util.UUID;
 
 import io.micrometer.common.util.StringUtils;
 
-import static com.softropic.apptemplate.security.exposed.exception.SecurityError.EMAIL_OR_PW_MISMATCH;
-import static com.softropic.apptemplate.security.exposed.exception.SecurityError.PWD_RESET_REJECTED;
+import static com.softropic.apptemplate.security.contract.exception.SecurityError.EMAIL_OR_PW_MISMATCH;
+import static com.softropic.apptemplate.security.contract.exception.SecurityError.PWD_RESET_REJECTED;
 
 
 @Service

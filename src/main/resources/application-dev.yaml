@@ -21,7 +21,7 @@ spring:
       WRITE_DATES_AS_TIMESTAMPS: false
   application.name: apptemplate #custom field
   autoconfigure.exclude: org.springframework.boot.autoconfigure.web.servlet.error.ErrorMvcAutoConfiguration
-  main.allow-circular-references: true
+  main.allow-circular-references: false
   jmx.enabled: false
   jpa:
     generate-ddl: true

@@ -6,13 +6,13 @@ package com.softropic.apptemplate.security.api;
 import com.softropic.apptemplate.common.message.Failure;
 import com.softropic.apptemplate.common.message.Response;
 import com.softropic.apptemplate.common.message.Success;
-import com.softropic.apptemplate.security.exposed.ChangePasswordDto;
-import com.softropic.apptemplate.security.exposed.UserDto;
-import com.softropic.apptemplate.security.exposed.exception.AuthorizationException;
-import com.softropic.apptemplate.security.exposed.exception.SecurityError;
+import com.softropic.apptemplate.security.contract.ChangePasswordDto;
+import com.softropic.apptemplate.security.contract.UserDto;
+import com.softropic.apptemplate.security.contract.exception.AuthorizationException;
+import com.softropic.apptemplate.security.contract.exception.SecurityError;
 import com.softropic.apptemplate.security.service.UserService;
 import com.softropic.apptemplate.security.service.UserRegistrationService;
-import com.softropic.apptemplate.security.core.mapper.UserMapper;
+import com.softropic.apptemplate.security.service.UserMapper;
 
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;

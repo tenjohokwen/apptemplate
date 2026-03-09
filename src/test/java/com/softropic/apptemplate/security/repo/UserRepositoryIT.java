@@ -5,9 +5,9 @@ import com.softropic.apptemplate.common.validation.PhoneNumber;
 import com.softropic.apptemplate.common.validation.Provider;
 import com.softropic.apptemplate.config.TestConfig;
 import com.softropic.apptemplate.security.SecurityIT;
-import com.softropic.apptemplate.security.domain.Address;
-import com.softropic.apptemplate.security.domain.User;
-import com.softropic.apptemplate.security.repository.UserRepository;
+import com.softropic.apptemplate.security.repo.Address;
+import com.softropic.apptemplate.security.repo.User;
+import com.softropic.apptemplate.security.repo.UserRepository;
 
 import org.instancio.Instancio;
 import org.junit.jupiter.api.Test;

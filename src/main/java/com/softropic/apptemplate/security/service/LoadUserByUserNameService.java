@@ -2,9 +2,9 @@ package com.softropic.apptemplate.security.service;
 
 
 
-import com.softropic.apptemplate.security.exposed.Principal;
-import com.softropic.apptemplate.security.domain.User;
-import com.softropic.apptemplate.security.repository.UserRepository;
+import com.softropic.apptemplate.security.contract.Principal;
+import com.softropic.apptemplate.security.repo.User;
+import com.softropic.apptemplate.security.repo.UserRepository;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -4,7 +4,7 @@ package com.softropic.apptemplate.common.client;
 import com.softropic.apptemplate.common.TransactionIdProvider;
 import com.softropic.apptemplate.common.client.exception.HttpClientException;
 import com.softropic.apptemplate.common.client.exception.MomoError;
-import com.softropic.apptemplate.security.exposed.util.RequestIdProvider;
+import com.softropic.apptemplate.security.contract.util.RequestIdProvider;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;

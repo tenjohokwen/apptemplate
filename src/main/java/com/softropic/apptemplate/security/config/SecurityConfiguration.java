@@ -2,24 +2,24 @@ package com.softropic.apptemplate.security.config;
 
 
 import com.softropic.apptemplate.security.audit.filter.LoggingFilter;
-import com.softropic.apptemplate.security.common.service.LoginTokenManager;
-import com.softropic.apptemplate.security.core.filter.SecondFactorLoginFilter;
-import com.softropic.apptemplate.security.core.filter.SecurityAdviceFilter;
-import com.softropic.apptemplate.security.core.filter.SessionRefreshFilter;
-import com.softropic.apptemplate.security.exposed.exception.AjaxLogoutSuccessHandler;
-import com.softropic.apptemplate.security.exposed.exception.ApplicationAccessDeniedHandler;
-import com.softropic.apptemplate.security.exposed.exception.AuthenticationExceptionHandler;
-import com.softropic.apptemplate.security.exposed.util.RequestMetadata;
-import com.softropic.apptemplate.security.exposed.util.SecurityUtil;
-import com.softropic.apptemplate.security.jwt.api.filter.JWTAuthenticationFilter;
-import com.softropic.apptemplate.security.jwt.api.filter.JWTAuthorizationFilter;
-import com.softropic.apptemplate.security.manager.AuthenticationManagerSimulator;
-import com.softropic.apptemplate.security.manager.ClientIdAccessDecisionManager;
-import com.softropic.apptemplate.security.manager.FraudAwareAuthenticationManager;
-import com.softropic.apptemplate.security.manager.LoginDecisionManager;
-import com.softropic.apptemplate.security.manager.SecuredHttpEndpointGuard;
-import com.softropic.apptemplate.security.manager.TwoFactorLoginManager;
-import com.softropic.apptemplate.security.manager.UnanimousAuthorizationManager;
+import com.softropic.apptemplate.security.service.LoginTokenManager;
+import com.softropic.apptemplate.security.infrastructure.filter.SecondFactorLoginFilter;
+import com.softropic.apptemplate.security.infrastructure.filter.SecurityAdviceFilter;
+import com.softropic.apptemplate.security.infrastructure.filter.SessionRefreshFilter;
+import com.softropic.apptemplate.security.infrastructure.AjaxLogoutSuccessHandler;
+import com.softropic.apptemplate.security.contract.exception.ApplicationAccessDeniedHandler;
+import com.softropic.apptemplate.security.contract.exception.AuthenticationExceptionHandler;
+import com.softropic.apptemplate.security.contract.util.RequestMetadata;
+import com.softropic.apptemplate.security.service.SecurityUtil;
+import com.softropic.apptemplate.security.infrastructure.jwt.filter.JWTAuthenticationFilter;
+import com.softropic.apptemplate.security.infrastructure.jwt.filter.JWTAuthorizationFilter;
+import com.softropic.apptemplate.security.infrastructure.AuthenticationManagerSimulator;
+import com.softropic.apptemplate.security.service.ClientIdAccessDecisionManager;
+import com.softropic.apptemplate.security.infrastructure.FraudAwareAuthenticationManager;
+import com.softropic.apptemplate.security.service.LoginDecisionManager;
+import com.softropic.apptemplate.security.infrastructure.SecuredHttpEndpointGuard;
+import com.softropic.apptemplate.security.service.TwoFactorLoginService;
+import com.softropic.apptemplate.security.infrastructure.UnanimousAuthorizationManager;
 import com.softropic.apptemplate.security.service.DaoAuthProvider;
 import com.softropic.apptemplate.security.service.LoadUserByUserNameService;
 
@@ -52,9 +52,11 @@ import org.springframework.security.web.access.intercept.RequestAuthorizationCon
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 import org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.filter.ForwardedHeaderFilter;
 import org.springframework.web.servlet.HandlerExceptionResolver;
+import com.softropic.apptemplate.security.contract.SecurityProperties;
 
 import java.util.List;
 
@@ -72,6 +74,7 @@ import static com.softropic.apptemplate.security.config.AppEndpoints.SECURED_END
 @EnableWebSecurity
 @EnableMethodSecurity(securedEnabled = true,
                       jsr250Enabled = true)
+@EnableConfigurationProperties(SecurityProperties.class)
 public class SecurityConfiguration {
 
     @Bean
@@ -143,7 +146,7 @@ public class SecurityConfiguration {
     public SecurityFilterChain filterChain(final HttpSecurity http,
                                            AjaxLogoutSuccessHandler ajaxLogoutSuccessHandler,
                                            SecurityAdviceFilter securityAdviceFilter,
-                                           TwoFactorLoginManager twoFactorLoginManager,
+                                           TwoFactorLoginService twoFactorLoginManager,
                                            HandlerExceptionResolver handlerExceptionResolver,
                                            AuthenticationManager authenticationManager,
                                            DaoAuthProvider daoAuthProvider,
@@ -190,7 +193,7 @@ public class SecurityConfiguration {
                             UsernamePasswordAuthenticationFilter.class)
             .addFilterAfter(new JWTAuthorizationFilter(daoAuthProvider,
                                                        applicationEventPublisher,
-                                                       new SecuredHttpEndpointGuard(),
+                                                       new SecuredHttpEndpointGuard(AppEndpoints.SECURED_MAPPINGS, AppEndpoints.ALL_UNRESTRICTED),
                                                        loginTokenManager,
                                                        securityUtil,
                                                        env),

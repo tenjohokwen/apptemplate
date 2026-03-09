@@ -1,6 +1,6 @@
 package com.softropic.apptemplate.security.api.registration;
 
-import com.softropic.apptemplate.security.domain.User;
+import com.softropic.apptemplate.security.repo.User;
 
 /**
  * Strategy interface for sending registration notifications via different channels.

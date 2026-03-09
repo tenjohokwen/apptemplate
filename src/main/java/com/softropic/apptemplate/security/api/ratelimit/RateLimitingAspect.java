@@ -1,7 +1,7 @@
 package com.softropic.apptemplate.security.api.ratelimit;
 
-import com.softropic.apptemplate.security.exposed.exception.AuthorizationException;
-import com.softropic.apptemplate.security.exposed.util.RequestMetadataProvider;
+import com.softropic.apptemplate.security.contract.exception.AuthorizationException;
+import com.softropic.apptemplate.security.contract.util.RequestMetadataProvider;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
@@ -10,7 +10,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
-import static com.softropic.apptemplate.security.exposed.exception.SecurityError.TOO_MANY_REQUESTS;
+import static com.softropic.apptemplate.security.contract.exception.SecurityError.TOO_MANY_REQUESTS;
 
 /**
  * Aspect for enforcing rate limits on methods annotated with {@link RateLimited}.

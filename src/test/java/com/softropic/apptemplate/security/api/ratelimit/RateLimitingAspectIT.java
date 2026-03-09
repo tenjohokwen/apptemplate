@@ -1,8 +1,8 @@
 package com.softropic.apptemplate.security.api.ratelimit;
 
-import com.softropic.apptemplate.security.exposed.exception.AuthorizationException;
-import com.softropic.apptemplate.security.exposed.util.RequestMetadata;
-import com.softropic.apptemplate.security.exposed.util.RequestMetadataProvider;
+import com.softropic.apptemplate.security.contract.exception.AuthorizationException;
+import com.softropic.apptemplate.security.contract.util.RequestMetadata;
+import com.softropic.apptemplate.security.contract.util.RequestMetadataProvider;
 
 import org.junit.jupiter.api.Test;
 import org.mockito.MockedStatic;
@@ -16,7 +16,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.concurrent.TimeUnit;
 
-import static com.softropic.apptemplate.security.exposed.exception.SecurityError.TOO_MANY_REQUESTS;
+import static com.softropic.apptemplate.security.contract.exception.SecurityError.TOO_MANY_REQUESTS;
 import static org.assertj.core.api.Assertions.assertThatCode;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.Mockito.mock;

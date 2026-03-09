@@ -3,7 +3,7 @@ package com.softropic.apptemplate.security.service;
 
 
 import com.softropic.apptemplate.common.consumer.Consumer;
-import com.softropic.apptemplate.security.repository.UserRepository;
+import com.softropic.apptemplate.security.repo.UserRepository;
 
 import org.springframework.stereotype.Service;
 

@@ -5,9 +5,9 @@ import com.softropic.apptemplate.email.api.Envelope;
 import com.softropic.apptemplate.email.api.MailManager;
 import com.softropic.apptemplate.security.api.AccountManagementFacade;
 import com.softropic.apptemplate.security.api.KeyAndPasswordDto;
-import com.softropic.apptemplate.security.domain.User;
-import com.softropic.apptemplate.security.exposed.ChangePasswordDto;
-import com.softropic.apptemplate.security.repository.UserRepository;
+import com.softropic.apptemplate.security.repo.User;
+import com.softropic.apptemplate.security.contract.ChangePasswordDto;
+import com.softropic.apptemplate.security.repo.UserRepository;
 import com.softropic.apptemplate.utils.TestMailManager;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -99,7 +99,7 @@ public class PasswordResetIT {
         // Assert that an exception is thrown
         // In the previous task, finishPasswordReset was refactored to throw OperationNotAllowedException
         assertThatThrownBy(() -> accountManagementFacade.finishPasswordReset(keyAndPasswordDto))
-                .isInstanceOf(com.softropic.apptemplate.security.exposed.exception.OperationNotAllowedException.class);
+                .isInstanceOf(com.softropic.apptemplate.security.contract.exception.OperationNotAllowedException.class);
     }
     
     @Test
@@ -119,6 +119,6 @@ public class PasswordResetIT {
         KeyAndPasswordDto keyAndPasswordDto = new KeyAndPasswordDto(expiredKey, "newPassword");
         
         assertThatThrownBy(() -> accountManagementFacade.finishPasswordReset(keyAndPasswordDto))
-                .isInstanceOf(com.softropic.apptemplate.security.exposed.exception.OperationNotAllowedException.class);
+                .isInstanceOf(com.softropic.apptemplate.security.contract.exception.OperationNotAllowedException.class);
     }
 }

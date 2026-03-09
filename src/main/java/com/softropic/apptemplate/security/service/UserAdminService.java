@@ -1,9 +1,9 @@
 package com.softropic.apptemplate.security.service;
 
 import com.softropic.apptemplate.security.common.util.SecurityConstants;
-import com.softropic.apptemplate.security.config.SecurityProperties;
-import com.softropic.apptemplate.security.domain.User;
-import com.softropic.apptemplate.security.repository.UserRepository;
+import com.softropic.apptemplate.security.contract.SecurityProperties;
+import com.softropic.apptemplate.security.repo.User;
+import com.softropic.apptemplate.security.repo.UserRepository;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

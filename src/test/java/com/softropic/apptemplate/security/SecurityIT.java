@@ -10,11 +10,11 @@ import com.softropic.apptemplate.email.api.Envelope;
 import com.softropic.apptemplate.email.api.MailManager;
 import com.softropic.apptemplate.security.api.AccountManagementFacade;
 import com.softropic.apptemplate.security.common.util.SecurityConstants;
-import com.softropic.apptemplate.security.exposed.LoginIdType;
-import com.softropic.apptemplate.security.exposed.UserDto;
-import com.softropic.apptemplate.security.manager.LoginAttemptsService;
-import com.softropic.apptemplate.security.repository.LoginInfoRepository;
-import com.softropic.apptemplate.security.repository.UserRepository;
+import com.softropic.apptemplate.security.contract.LoginIdType;
+import com.softropic.apptemplate.security.contract.UserDto;
+import com.softropic.apptemplate.security.service.LoginAttemptsService;
+import com.softropic.apptemplate.security.repo.LoginInfoRepository;
+import com.softropic.apptemplate.security.repo.UserRepository;
 import com.softropic.apptemplate.utils.TestMailManager;
 
 import org.junit.jupiter.api.AfterEach;
@@ -260,7 +260,7 @@ public class SecurityIT {
         final Envelope otpEnvelope = testMailManager.getEnvelope(authHelpCode);
         final Map<String, Object> data = otpEnvelope.data();
         
-        // TwoFactorLoginManager uses "otpCode"
+        // TwoFactorLoginService uses "otpCode"
         Object otpObj = data.get("otpCode");
         if (otpObj == null) otpObj = data.get("otp");
         

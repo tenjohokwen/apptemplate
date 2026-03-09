@@ -3,13 +3,13 @@ package com.softropic.apptemplate.security.service;
 
 
 import com.softropic.apptemplate.common.ClockProvider;
-import com.softropic.apptemplate.security.common.domain.LoginData;
+import com.softropic.apptemplate.security.contract.LoginData;
 import com.softropic.apptemplate.security.common.util.SecurityConstants;
-import com.softropic.apptemplate.security.exposed.exception.SecException;
-import com.softropic.apptemplate.security.exposed.util.RequestMetadata;
-import com.softropic.apptemplate.security.exposed.util.RequestMetadataProvider;
-import com.softropic.apptemplate.security.domain.LoginInfo;
-import com.softropic.apptemplate.security.repository.LoginInfoRepository;
+import com.softropic.apptemplate.security.contract.exception.SecException;
+import com.softropic.apptemplate.security.contract.util.RequestMetadata;
+import com.softropic.apptemplate.security.contract.util.RequestMetadataProvider;
+import com.softropic.apptemplate.security.repo.LoginInfo;
+import com.softropic.apptemplate.security.repo.LoginInfoRepository;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
@@ -20,11 +20,11 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
-import static com.softropic.apptemplate.security.exposed.exception.SecurityError.CLIENT_INFO_MISMATCH;
-import static com.softropic.apptemplate.security.exposed.exception.SecurityError.INVALID_LOGIN_INFO_ID;
-import static com.softropic.apptemplate.security.exposed.exception.SecurityError.OTP_ALREADY_USED;
-import static com.softropic.apptemplate.security.exposed.exception.SecurityError.OTP_EXPIRED;
-import static com.softropic.apptemplate.security.exposed.exception.SecurityError.OTP_MISMATCH;
+import static com.softropic.apptemplate.security.contract.exception.SecurityError.CLIENT_INFO_MISMATCH;
+import static com.softropic.apptemplate.security.contract.exception.SecurityError.INVALID_LOGIN_INFO_ID;
+import static com.softropic.apptemplate.security.contract.exception.SecurityError.OTP_ALREADY_USED;
+import static com.softropic.apptemplate.security.contract.exception.SecurityError.OTP_EXPIRED;
+import static com.softropic.apptemplate.security.contract.exception.SecurityError.OTP_MISMATCH;
 
 
 @Service

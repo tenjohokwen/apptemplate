@@ -2,11 +2,11 @@ package com.softropic.apptemplate.security.service;
 
 import com.softropic.apptemplate.common.consumer.Consumer;
 import com.softropic.apptemplate.security.common.util.SecurityConstants;
-import com.softropic.apptemplate.security.exception.UserNotFoundException;
-import com.softropic.apptemplate.security.exposed.util.SecurityUtil;
-import com.softropic.apptemplate.security.repository.AuthorityRepository;
-import com.softropic.apptemplate.security.domain.User;
-import com.softropic.apptemplate.security.repository.UserRepository;
+import com.softropic.apptemplate.security.contract.exception.UserNotFoundException;
+import com.softropic.apptemplate.security.service.SecurityUtil;
+import com.softropic.apptemplate.security.repo.AuthorityRepository;
+import com.softropic.apptemplate.security.repo.User;
+import com.softropic.apptemplate.security.repo.UserRepository;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

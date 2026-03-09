@@ -4,9 +4,9 @@ import com.softropic.apptemplate.common.ClockProvider;
 import com.softropic.apptemplate.email.api.EmailTemplate;
 import com.softropic.apptemplate.email.api.Envelope;
 import com.softropic.apptemplate.email.api.Recipient;
-import com.softropic.apptemplate.security.exposed.event.AccountChangeEvent;
-import com.softropic.apptemplate.security.exposed.event.AccountChangeUserInfo;
-import com.softropic.apptemplate.security.exposed.util.ShortCode;
+import com.softropic.apptemplate.security.contract.event.AccountChangeEvent;
+import com.softropic.apptemplate.security.contract.event.AccountChangeUserInfo;
+import com.softropic.apptemplate.security.contract.util.ShortCode;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
