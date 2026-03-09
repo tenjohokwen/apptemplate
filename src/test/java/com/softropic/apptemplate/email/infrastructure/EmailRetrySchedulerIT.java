@@ -1,10 +1,12 @@
-package com.softropic.apptemplate.email.api;
+package com.softropic.apptemplate.email.infrastructure;
 
 import com.softropic.apptemplate.config.TestConfig;
-import com.softropic.apptemplate.email.persistence.entity.EmailDeliveryStatus;
-import com.softropic.apptemplate.email.persistence.entity.EnvelopeEntity;
-import com.softropic.apptemplate.email.persistence.entity.RecipientEntity;
-import com.softropic.apptemplate.email.persistence.repository.EnvelopeEntityRepository;
+import com.softropic.apptemplate.email.contract.EmailDeliveryStatus;
+import com.softropic.apptemplate.email.contract.EmailTemplate;
+import com.softropic.apptemplate.email.repo.EnvelopeEntity;
+import com.softropic.apptemplate.email.repo.EnvelopeEntityRepository;
+import com.softropic.apptemplate.email.repo.RecipientEntity;
+import com.softropic.apptemplate.email.service.MailManager;
 import com.softropic.apptemplate.utils.TestMailManager;
 
 import org.junit.jupiter.api.AfterEach;

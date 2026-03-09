@@ -1,4 +1,4 @@
-package com.softropic.apptemplate.email.api;
+package com.softropic.apptemplate.email.contract;
 
 import java.time.Instant;
 import java.util.List;

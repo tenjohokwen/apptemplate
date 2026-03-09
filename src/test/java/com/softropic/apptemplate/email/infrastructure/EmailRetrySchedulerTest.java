@@ -1,9 +1,12 @@
-package com.softropic.apptemplate.email.api;
+package com.softropic.apptemplate.email.infrastructure;
 
-import com.softropic.apptemplate.email.persistence.entity.EmailDeliveryStatus;
-import com.softropic.apptemplate.email.persistence.entity.EnvelopeEntity;
-import com.softropic.apptemplate.email.persistence.entity.RecipientEntity;
-import com.softropic.apptemplate.email.persistence.repository.EnvelopeEntityRepository;
+import com.softropic.apptemplate.email.contract.EmailDeliveryStatus;
+import com.softropic.apptemplate.email.contract.EmailTemplate;
+import com.softropic.apptemplate.email.contract.Envelope;
+import com.softropic.apptemplate.email.repo.EnvelopeEntity;
+import com.softropic.apptemplate.email.repo.EnvelopeEntityRepository;
+import com.softropic.apptemplate.email.repo.RecipientEntity;
+import com.softropic.apptemplate.email.service.MailManager;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -33,7 +36,7 @@ import static org.mockito.Mockito.when;
  *
  * Covers scheduling logic in isolation: pre-checks (deadline, attempt limit) and
  * per-row failure isolation. {@link EnvelopeEntityRepository} and {@link MailManager}
- * are mocked; {@link EnvelopeMapper} runs as production code.
+ * are mocked; {@link com.softropic.apptemplate.email.service.EnvelopeMapper} runs as production code.
  */
 @ExtendWith(MockitoExtension.class)
 class EmailRetrySchedulerTest {
@@ -151,7 +154,6 @@ class EmailRetrySchedulerTest {
 
     @Test
     void retryFailedEmails_marksAttemptsExhaustedAtThresholdAndSkipsSend() {
-        // attempts == MAX_RETRY_ATTEMPTS (= 6): has had 1 initial + 5 retries already
         String sendId = UUID.randomUUID().toString();
         EnvelopeEntity exhausted = buildEntity(sendId, (int) EmailRetryScheduler.MAX_RETRY_ATTEMPTS,
                                                Instant.now().plus(Duration.ofDays(1)));
@@ -166,7 +168,6 @@ class EmailRetrySchedulerTest {
 
     @Test
     void retryFailedEmails_doesNotExhaustWhenAttemptsOneBelowThreshold() {
-        // attempts == MAX_RETRY_ATTEMPTS - 1: 5th retry is still permitted
         String sendId = UUID.randomUUID().toString();
         EnvelopeEntity entity = buildEntity(sendId, (int) (EmailRetryScheduler.MAX_RETRY_ATTEMPTS - 1),
                                             Instant.now().plus(Duration.ofDays(1)));
@@ -180,7 +181,6 @@ class EmailRetrySchedulerTest {
 
     @Test
     void retryFailedEmails_marksAttemptsExhaustedAboveThreshold() {
-        // attempts > MAX_RETRY_ATTEMPTS (guard uses >=, should also exhaust)
         String sendId = UUID.randomUUID().toString();
         EnvelopeEntity entity = buildEntity(sendId, (int) EmailRetryScheduler.MAX_RETRY_ATTEMPTS + 2,
                                             Instant.now().plus(Duration.ofDays(1)));

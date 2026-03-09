@@ -1,8 +1,7 @@
-package com.softropic.apptemplate.email.persistence.entity;
+package com.softropic.apptemplate.email.repo;
 
-
-
-import com.softropic.apptemplate.email.api.EmailTemplate;
+import com.softropic.apptemplate.email.contract.EmailDeliveryStatus;
+import com.softropic.apptemplate.email.contract.EmailTemplate;
 
 import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.type.SqlTypes;

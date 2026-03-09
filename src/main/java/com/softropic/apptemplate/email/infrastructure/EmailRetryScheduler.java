@@ -1,8 +1,11 @@
-package com.softropic.apptemplate.email.api;
+package com.softropic.apptemplate.email.infrastructure;
 
-import com.softropic.apptemplate.email.persistence.entity.EmailDeliveryStatus;
-import com.softropic.apptemplate.email.persistence.entity.EnvelopeEntity;
-import com.softropic.apptemplate.email.persistence.repository.EnvelopeEntityRepository;
+import com.softropic.apptemplate.email.contract.EmailDeliveryStatus;
+import com.softropic.apptemplate.email.contract.Envelope;
+import com.softropic.apptemplate.email.repo.EnvelopeEntity;
+import com.softropic.apptemplate.email.repo.EnvelopeEntityRepository;
+import com.softropic.apptemplate.email.service.EnvelopeMapper;
+import com.softropic.apptemplate.email.service.MailManager;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -82,7 +85,7 @@ public class EmailRetryScheduler {
                 continue;
             }
             try {
-                Envelope envelope = EnvelopeMapper.toEnvelop(entity);
+                Envelope envelope = EnvelopeMapper.toEnvelope(entity);
                 mailManager.sendEmailSync(envelope);
             } catch (Exception e) {
                 log.error("Retry attempt failed for sendId='{}': {}", entity.getSendId(), e.getMessage());

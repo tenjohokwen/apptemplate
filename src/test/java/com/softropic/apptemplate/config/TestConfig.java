@@ -1,6 +1,6 @@
 package com.softropic.apptemplate.config;
 
-import com.softropic.apptemplate.email.api.MailManager;
+import com.softropic.apptemplate.email.service.MailManager;
 import com.softropic.apptemplate.utils.TestMailManager;
 import com.softropic.apptemplate.utils.sql.EntityFetchAsserter;
 import com.softropic.apptemplate.utils.sql.QueryRecorderListener;

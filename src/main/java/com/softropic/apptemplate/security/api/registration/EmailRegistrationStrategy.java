@@ -1,9 +1,9 @@
 package com.softropic.apptemplate.security.api.registration;
 
 import com.softropic.apptemplate.common.ClockProvider;
-import com.softropic.apptemplate.email.api.EmailTemplate;
-import com.softropic.apptemplate.email.api.Envelope;
-import com.softropic.apptemplate.email.api.Recipient;
+import com.softropic.apptemplate.email.contract.EmailTemplate;
+import com.softropic.apptemplate.email.contract.Envelope;
+import com.softropic.apptemplate.email.contract.Recipient;
 import com.softropic.apptemplate.security.contract.util.ClientContextProvider;
 import com.softropic.apptemplate.security.contract.util.ShortCode;
 import com.softropic.apptemplate.security.api.ratelimit.RateLimited;

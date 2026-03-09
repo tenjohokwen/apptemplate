@@ -1,4 +1,4 @@
-package com.softropic.apptemplate.email.persistence.entity;
+package com.softropic.apptemplate.email.contract;
 
 /**
  * Email delivery status enumeration.

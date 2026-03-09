@@ -1,4 +1,4 @@
-package com.softropic.apptemplate.email.service;
+package com.softropic.apptemplate.email.contract;
 
 public class ProviderConfig {
     private String name;

@@ -1,7 +1,11 @@
-package com.softropic.apptemplate.email.api;
+package com.softropic.apptemplate.email.infrastructure;
 
-import com.softropic.apptemplate.email.persistence.entity.EnvelopeEntity;
-import com.softropic.apptemplate.email.persistence.repository.EnvelopeEntityRepository;
+import com.softropic.apptemplate.email.contract.EmailTemplate;
+import com.softropic.apptemplate.email.contract.Envelope;
+import com.softropic.apptemplate.email.contract.Recipient;
+import com.softropic.apptemplate.email.repo.EnvelopeEntity;
+import com.softropic.apptemplate.email.repo.EnvelopeEntityRepository;
+import com.softropic.apptemplate.email.service.MailManager;
 import com.softropic.apptemplate.email.service.MailService;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -9,7 +13,6 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.cloud.circuitbreaker.resilience4j.Resilience4JCircuitBreakerFactory;
-import org.springframework.cloud.client.circuitbreaker.CircuitBreaker;
 import org.springframework.cloud.client.circuitbreaker.CircuitBreakerFactory;
 import org.springframework.retry.support.RetryTemplate;
 
@@ -40,9 +43,6 @@ public class MailManagerResilienceTest {
 
     @Mock
     private CircuitBreakerFactory<?, ?> circuitBreakerFactory;
-
-    @Mock
-    private CircuitBreaker circuitBreaker;
 
     private Envelope envelope;
     private Recipient recipient;
@@ -126,5 +126,4 @@ public class MailManagerResilienceTest {
         // If 6th call made it, it would be 18.
         verify(mailService, times(15)).sendEmailFromTemplate(any(), any(), any());
     }
-
 }

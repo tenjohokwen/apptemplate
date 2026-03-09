@@ -1,14 +1,14 @@
 package com.softropic.apptemplate.email.config;
 
-
-
-import com.softropic.apptemplate.email.api.MailManager;
-import com.softropic.apptemplate.email.persistence.repository.EnvelopeEntityRepository;
+import com.softropic.apptemplate.email.contract.EmailProperties;
+import com.softropic.apptemplate.email.service.MailManager;
 import com.softropic.apptemplate.email.service.MailService;
+import com.softropic.apptemplate.email.repo.EnvelopeEntityRepository;
 
 import io.github.resilience4j.circuitbreaker.CircuitBreakerConfig;
 import io.github.resilience4j.timelimiter.TimeLimiterConfig;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.cloud.circuitbreaker.resilience4j.Resilience4JCircuitBreakerFactory;
 import org.springframework.cloud.circuitbreaker.resilience4j.Resilience4JConfigBuilder;
 import org.springframework.cloud.client.circuitbreaker.CircuitBreakerFactory;
@@ -20,11 +20,12 @@ import org.springframework.retry.support.RetryTemplate;
 import java.time.Duration;
 
 @Configuration
+@EnableConfigurationProperties(EmailProperties.class)
 public class ComponentConfig {
 
     @Bean
-    @ConditionalOnProperty(name = "enable.test.mail", havingValue = "false", matchIfMissing = true) //created this bean so that it can be replaced for some tests
-    MailManager mailManager(final MailService mailService, 
+    @ConditionalOnProperty(name = "enable.test.mail", havingValue = "false", matchIfMissing = true)
+    MailManager mailManager(final MailService mailService,
                             final EnvelopeEntityRepository envelopeEntityRepo,
                             final CircuitBreakerFactory<?, ?> circuitBreakerFactory,
                             final RetryTemplate retryTemplate) {

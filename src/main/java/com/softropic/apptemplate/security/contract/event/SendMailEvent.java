@@ -1,7 +1,7 @@
 package com.softropic.apptemplate.security.contract.event;
 
 
-import com.softropic.apptemplate.email.api.EmailTemplate;
+import com.softropic.apptemplate.email.contract.EmailTemplate;
 
 import java.time.LocalDateTime;
 import java.util.List;

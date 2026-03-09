@@ -1,4 +1,4 @@
-package com.softropic.apptemplate.email.api;
+package com.softropic.apptemplate.email.contract;
 
 public enum EmailTemplate {
     NONE(""),
@@ -18,5 +18,4 @@ public enum EmailTemplate {
     public String subjectKey() {
         return subjectKey;
     }
-
 }

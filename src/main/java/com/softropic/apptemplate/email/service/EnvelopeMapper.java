@@ -1,9 +1,9 @@
-package com.softropic.apptemplate.email.api;
+package com.softropic.apptemplate.email.service;
 
-
-
-import com.softropic.apptemplate.email.persistence.entity.EnvelopeEntity;
-import com.softropic.apptemplate.email.persistence.entity.RecipientEntity;
+import com.softropic.apptemplate.email.contract.Envelope;
+import com.softropic.apptemplate.email.contract.Recipient;
+import com.softropic.apptemplate.email.repo.EnvelopeEntity;
+import com.softropic.apptemplate.email.repo.RecipientEntity;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -15,7 +15,7 @@ import java.util.UUID;
 public class EnvelopeMapper {
     private EnvelopeMapper() {}
 
-    static EnvelopeEntity toEntity(final Envelope envelope) {
+    public static EnvelopeEntity toEntity(final Envelope envelope) {
         final EnvelopeEntity envelopeEntity = new EnvelopeEntity();
         envelopeEntity.setEmailTemplate(envelope.emailTemplate());
         envelopeEntity.setDeadline(envelope.deadline());
@@ -26,13 +26,13 @@ public class EnvelopeMapper {
         return envelopeEntity;
     }
 
-    static List<RecipientEntity> toRecipientEntities(final List<Recipient> recipients) {
+    public static List<RecipientEntity> toRecipientEntities(final List<Recipient> recipients) {
         final List<RecipientEntity> entities = new ArrayList<>();
         recipients.forEach(recipient -> entities.add(toRecipientEntity(recipient)));
         return entities;
     }
 
-    static RecipientEntity toRecipientEntity(final Recipient recipient) {
+    public static RecipientEntity toRecipientEntity(final Recipient recipient) {
         final RecipientEntity recipientEntity = new RecipientEntity();
         recipientEntity.setEmail(recipient.getEmail());
         recipientEntity.setFirstname(recipient.getFirstname());
@@ -43,7 +43,7 @@ public class EnvelopeMapper {
         return recipientEntity;
     }
 
-    static Envelope toEnvelop(final EnvelopeEntity entity) {
+    public static Envelope toEnvelope(final EnvelopeEntity entity) {
         Map<String, Object> data = new HashMap<>(entity.getData());
         final List<Recipient> recipients = new ArrayList<>();
         entity.getRecipients().forEach(recipient -> recipients.add(toRecipient(recipient)));

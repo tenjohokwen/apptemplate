@@ -3,8 +3,8 @@ package com.softropic.apptemplate.security;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.softropic.apptemplate.common.HttpTestClient;
 import com.softropic.apptemplate.config.TestConfig;
-import com.softropic.apptemplate.email.api.Envelope;
-import com.softropic.apptemplate.email.api.MailManager;
+import com.softropic.apptemplate.email.contract.Envelope;
+import com.softropic.apptemplate.email.service.MailManager;
 import com.softropic.apptemplate.security.common.util.SecurityConstants;
 import com.softropic.apptemplate.utils.TestMailManager;
 

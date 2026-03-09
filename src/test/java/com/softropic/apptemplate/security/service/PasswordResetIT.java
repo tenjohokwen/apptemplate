@@ -1,8 +1,8 @@
 package com.softropic.apptemplate.security.service;
 
 import com.softropic.apptemplate.config.TestConfig;
-import com.softropic.apptemplate.email.api.Envelope;
-import com.softropic.apptemplate.email.api.MailManager;
+import com.softropic.apptemplate.email.contract.Envelope;
+import com.softropic.apptemplate.email.service.MailManager;
 import com.softropic.apptemplate.security.api.AccountManagementFacade;
 import com.softropic.apptemplate.security.api.KeyAndPasswordDto;
 import com.softropic.apptemplate.security.repo.User;

@@ -1,28 +1,28 @@
-package com.softropic.apptemplate.email.service;
+package com.softropic.apptemplate.email.infrastructure;
 
-import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.context.annotation.Configuration;
+import com.softropic.apptemplate.email.contract.EmailProperties;
+import com.softropic.apptemplate.email.contract.ProviderConfig;
+import com.softropic.apptemplate.email.service.SenderProvider;
+
 import org.springframework.mail.javamail.JavaMailSenderImpl;
+import org.springframework.stereotype.Component;
 
 import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.stream.Collectors;
 
-import jakarta.annotation.PostConstruct;
+@Component
+public class MailSenderProvider implements SenderProvider {
 
-
-@Configuration
-@ConfigurationProperties(prefix = "email")
-public class MailSenderProvider {
     private final AtomicInteger counter = new AtomicInteger(0);
-    private final List<JavaMailSenderImpl> providers = new ArrayList<>();
-    private final List<ProviderConfig> providerConfigs = new ArrayList<>();
+    private final List<JavaMailSenderImpl> providers;
 
-    @PostConstruct
-    public void init() {
-       providerConfigs.forEach(providerConfig -> providers.add(toMailSender(providerConfig)));
+    public MailSenderProvider(EmailProperties emailProperties) {
+        this.providers = emailProperties.getProviderConfigs().stream()
+                .map(this::toMailSender)
+                .collect(Collectors.toList());
     }
 
     private JavaMailSenderImpl toMailSender(final ProviderConfig providerConfig) {
@@ -44,13 +44,6 @@ public class MailSenderProvider {
         final var currentCounterValue = counter.getAndIncrement();
         final var nextProviderPos = currentCounterValue % providers.size();
         return providers.get(nextProviderPos);
-    }
-
-    /*
-      NB a getter/setter method is needed for injection. Spring autowiring feature.
-     */
-    public List<ProviderConfig> getProviderConfigs() {
-        return this.providerConfigs;
     }
 
     void resetProviderRoundRobin() {

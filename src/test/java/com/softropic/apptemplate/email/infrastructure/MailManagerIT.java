@@ -1,6 +1,10 @@
-package com.softropic.apptemplate.email.api;
+package com.softropic.apptemplate.email.infrastructure;
 
 import com.softropic.apptemplate.config.TestConfig;
+import com.softropic.apptemplate.email.contract.EmailTemplate;
+import com.softropic.apptemplate.email.contract.Envelope;
+import com.softropic.apptemplate.email.contract.Recipient;
+import com.softropic.apptemplate.email.service.MailManager;
 import com.softropic.apptemplate.utils.TestMailManager;
 
 import org.junit.jupiter.api.Test;
@@ -53,7 +57,6 @@ public class MailManagerIT {
 
         mailManager.sendEmailFromTemplate(envelope);
 
-        // Verify dispatch (TestMailManager stores it in memory)
         await().until(() -> testMailManager.getEnvelope(sendId) != null);
         Envelope received = testMailManager.getEnvelope(sendId);
         assertThat(received).isNotNull();
@@ -80,11 +83,9 @@ public class MailManagerIT {
 
         mailManager.sendEmailSync(envelope);
 
-        // Verify dispatch (TestMailManager stores it in memory)
         Envelope received = testMailManager.getEnvelope(sendId);
         assertThat(received).isNotNull();
         assertThat(received.sendId()).isEqualTo(sendId);
         assertThat(received.data().get("activationKey")).isEqualTo("12345");
     }
-
 }

@@ -1,10 +1,10 @@
-package com.softropic.apptemplate.email.api;
+package com.softropic.apptemplate.email.service;
 
-
-import com.softropic.apptemplate.email.persistence.entity.EmailDeliveryStatus;
-import com.softropic.apptemplate.email.persistence.entity.EnvelopeEntity;
-import com.softropic.apptemplate.email.persistence.repository.EnvelopeEntityRepository;
-import com.softropic.apptemplate.email.service.MailService;
+import com.softropic.apptemplate.email.contract.EmailDeliveryStatus;
+import com.softropic.apptemplate.email.contract.Envelope;
+import com.softropic.apptemplate.email.contract.Recipient;
+import com.softropic.apptemplate.email.repo.EnvelopeEntity;
+import com.softropic.apptemplate.email.repo.EnvelopeEntityRepository;
 
 import jakarta.mail.MessagingException;
 import org.apache.commons.lang3.exception.ExceptionUtils;
@@ -28,14 +28,11 @@ import java.util.Map;
 
 public class MailManager {
 
-    private static final Logger      logger = LoggerFactory.getLogger(MailManager.class);
+    private static final Logger logger = LoggerFactory.getLogger(MailManager.class);
 
     private final MailService mailService;
-
     private final EnvelopeEntityRepository envelopeEntityRepository;
-
     private final CircuitBreakerFactory<?, ?> circuitBreakerFactory;
-
     private final RetryTemplate retryTemplate;
 
     private static final List<Class<? extends Exception>> NON_REPAIRABLE_ERRORS = List.of(MailParseException.class,
@@ -61,11 +58,10 @@ public class MailManager {
     public void sendEmailSync(final Envelope envelope) {
         logger.info("sendEmailFrom template called:  Envelope {}", envelope);
         final List<Recipient> recipients = envelope.recipients();
-        if(recipients == null || recipients.isEmpty()) {
-            //TODO add validation to model so that the following line of code is never executed
+        if (recipients == null || recipients.isEmpty()) {
             throw new IllegalStateException("Recipient is missing. Cannot process email send request");
         }
-        
+
         final CircuitBreaker circuitBreaker = circuitBreakerFactory.create("emailService");
 
         EnvelopeEntity envelopeEntity;
@@ -74,7 +70,7 @@ public class MailManager {
                 for (Recipient recipient : recipients) {
                     final Map<String, Object> data = new HashMap<>(envelope.data());
                     data.put("sendId", envelope.sendId());
-                    
+
                     retryTemplate.execute(context -> {
                         try {
                             mailService.sendEmailFromTemplate(recipient, envelope.emailTemplate(), data);
@@ -101,13 +97,11 @@ public class MailManager {
             });
             envelopeEntity = toEnvelopeEntity(envelope, null);
         } catch (Exception exception) {
-            //If failure occurs it is either an authentication issue or network issue
-            //This means you would not have some sent and others fail. It would be an all or none
             envelopeEntity = toEnvelopeEntity(envelope, exception);
             logger.error("Could not send email after retries and circuit breaker protection. {}", envelopeEntity, exception);
         }
         final EnvelopeEntity entityBySendId = envelopeEntityRepository.findBySendId(envelopeEntity.getSendId());
-        if(entityBySendId != null) {
+        if (entityBySendId != null) {
             entityBySendId.setAttempts(entityBySendId.getAttempts() + 1);
             entityBySendId.setStatus(envelopeEntity.getStatus());
             entityBySendId.setError(envelopeEntity.getError());
@@ -121,7 +115,7 @@ public class MailManager {
         final EnvelopeEntity envelopeEntity = EnvelopeMapper.toEntity(envelope);
         long attempts = envelopeEntity.getAttempts();
         envelopeEntity.setAttempts(++attempts);
-        if(exception != null) {
+        if (exception != null) {
             final String stacktrace = ExceptionUtils.getStackTrace(exception);
             envelopeEntity.setError(stacktrace);
             envelopeEntity.setStatus(EmailDeliveryStatus.FAILED);

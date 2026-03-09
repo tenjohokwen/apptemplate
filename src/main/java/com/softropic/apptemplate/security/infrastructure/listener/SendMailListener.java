@@ -2,8 +2,8 @@ package com.softropic.apptemplate.security.infrastructure.listener;
 
 
 
-import com.softropic.apptemplate.email.api.Envelope;
-import com.softropic.apptemplate.email.api.Recipient;
+import com.softropic.apptemplate.email.contract.Envelope;
+import com.softropic.apptemplate.email.contract.Recipient;
 import com.softropic.apptemplate.security.contract.event.SendMailEvent;
 import com.softropic.apptemplate.security.repo.User;
 import com.softropic.apptemplate.security.service.UserService;

@@ -2,9 +2,9 @@ package com.softropic.apptemplate.security.api;
 
 import com.softropic.apptemplate.common.Gender;
 import com.softropic.apptemplate.config.TestConfig;
-import com.softropic.apptemplate.email.api.EmailTemplate;
-import com.softropic.apptemplate.email.api.Envelope;
-import com.softropic.apptemplate.email.api.MailManager;
+import com.softropic.apptemplate.email.contract.EmailTemplate;
+import com.softropic.apptemplate.email.contract.Envelope;
+import com.softropic.apptemplate.email.service.MailManager;
 import com.softropic.apptemplate.security.repo.Authority;
 import com.softropic.apptemplate.security.contract.UserDto;
 import com.softropic.apptemplate.security.contract.exception.ProfileActionException;

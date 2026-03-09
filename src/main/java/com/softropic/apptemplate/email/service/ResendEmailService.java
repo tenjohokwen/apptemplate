@@ -1,8 +1,8 @@
-package com.softropic.apptemplate.email.api;
+package com.softropic.apptemplate.email.service;
 
-
-import com.softropic.apptemplate.email.persistence.entity.EnvelopeEntity;
-import com.softropic.apptemplate.email.persistence.repository.EnvelopeEntityRepository;
+import com.softropic.apptemplate.email.contract.Envelope;
+import com.softropic.apptemplate.email.repo.EnvelopeEntity;
+import com.softropic.apptemplate.email.repo.EnvelopeEntityRepository;
 
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
@@ -20,7 +20,7 @@ public class ResendEmailService {
 
     public void resendEmail(String sendId) {
         EnvelopeEntity envelopeEntity = envelopeEntityRepository.findBySendId(sendId);
-        final Envelope envelop = EnvelopeMapper.toEnvelop(envelopeEntity);
-        publisher.publishEvent(envelop);
+        final Envelope envelope = EnvelopeMapper.toEnvelope(envelopeEntity);
+        publisher.publishEvent(envelope);
     }
 }

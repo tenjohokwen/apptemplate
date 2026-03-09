@@ -1,4 +1,4 @@
-package com.softropic.apptemplate.email.persistence.entity;
+package com.softropic.apptemplate.email.repo;
 
 import java.io.Serializable;
 

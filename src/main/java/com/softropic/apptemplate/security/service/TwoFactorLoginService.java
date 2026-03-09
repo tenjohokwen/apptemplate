@@ -3,7 +3,7 @@ package com.softropic.apptemplate.security.service;
 
 
 import com.softropic.apptemplate.common.ClockProvider;
-import com.softropic.apptemplate.email.api.EmailTemplate;
+import com.softropic.apptemplate.email.contract.EmailTemplate;
 import com.softropic.apptemplate.security.contract.LoginData;
 import com.softropic.apptemplate.security.service.LoginTokenManager;
 import com.softropic.apptemplate.security.contract.Principal;

@@ -2,8 +2,8 @@ package com.softropic.apptemplate.utils;
 
 
 
-import com.softropic.apptemplate.email.api.Envelope;
-import com.softropic.apptemplate.email.api.MailManager;
+import com.softropic.apptemplate.email.contract.Envelope;
+import com.softropic.apptemplate.email.service.MailManager;
 
 import org.springframework.context.event.EventListener;
 
