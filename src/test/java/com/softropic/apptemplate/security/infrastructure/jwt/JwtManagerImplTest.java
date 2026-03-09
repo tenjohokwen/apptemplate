@@ -7,14 +7,14 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.softropic.apptemplate.common.ClockProvider;
 import com.softropic.apptemplate.common.Gender;
 import com.softropic.apptemplate.common.TestClockProvider;
-import com.softropic.apptemplate.security.SimpleGrantedAuthorityMixin;
+import com.softropic.apptemplate.security.config.SimpleGrantedAuthorityMixin;
 import com.softropic.apptemplate.security.common.util.CookieUtil;
 import com.softropic.apptemplate.security.contract.Principal;
 import com.softropic.apptemplate.security.contract.exception.InvalidJWTDataException;
 import com.softropic.apptemplate.security.contract.exception.JWTExpiredException;
 import com.softropic.apptemplate.security.contract.exception.MissingClientIdException;
-import com.softropic.apptemplate.security.contract.util.RequestMetadata;
-import com.softropic.apptemplate.security.contract.util.RequestMetadataProvider;
+import com.softropic.apptemplate.security.common.util.RequestMetadata;
+import com.softropic.apptemplate.security.common.util.RequestMetadataProvider;
 import com.softropic.apptemplate.security.service.SecretService;
 import com.softropic.apptemplate.security.repo.Secret;
 

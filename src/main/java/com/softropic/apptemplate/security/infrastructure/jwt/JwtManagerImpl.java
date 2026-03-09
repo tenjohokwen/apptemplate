@@ -9,7 +9,7 @@ import com.softropic.apptemplate.security.common.util.CookieUtil;
 import com.softropic.apptemplate.security.contract.Principal;
 import com.softropic.apptemplate.security.contract.exception.AuthorizationException;
 import com.softropic.apptemplate.security.contract.exception.InvalidJWTDataException;
-import com.softropic.apptemplate.security.contract.util.RequestMetadataProvider;
+import com.softropic.apptemplate.security.common.util.RequestMetadataProvider;
 import io.jsonwebtoken.Claims;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;

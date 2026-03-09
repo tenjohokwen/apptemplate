@@ -9,7 +9,7 @@ import com.softropic.apptemplate.security.repo.Authority;
 import com.softropic.apptemplate.security.contract.UserDto;
 import com.softropic.apptemplate.security.contract.exception.ProfileActionException;
 import com.softropic.apptemplate.security.contract.exception.OperationNotAllowedException;
-import com.softropic.apptemplate.security.contract.util.TestRequestMetadataProvider;
+import com.softropic.apptemplate.security.common.util.TestRequestMetadataProvider;
 import com.softropic.apptemplate.security.contract.Principal;
 import com.softropic.apptemplate.utils.TestMailManager;
 

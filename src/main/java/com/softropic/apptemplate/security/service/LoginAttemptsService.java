@@ -6,7 +6,7 @@ import com.google.common.cache.LoadingCache;
 import com.google.common.base.Ticker;
 
 
-import com.softropic.apptemplate.security.contract.util.RequestMetadata;
+import com.softropic.apptemplate.security.common.util.RequestMetadata;
 
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;

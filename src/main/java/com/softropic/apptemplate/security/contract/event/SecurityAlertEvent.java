@@ -1,4 +1,4 @@
-package com.softropic.apptemplate.security.audit.shared.event;
+package com.softropic.apptemplate.security.contract.event;
 
 
 

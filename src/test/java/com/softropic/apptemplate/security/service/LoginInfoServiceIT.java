@@ -5,7 +5,7 @@ import com.softropic.apptemplate.config.TestConfig;
 import com.softropic.apptemplate.security.contract.LoginData;
 import com.softropic.apptemplate.security.repo.LoginInfo;
 import com.softropic.apptemplate.security.contract.exception.SecException;
-import com.softropic.apptemplate.security.contract.util.TestRequestMetadataProvider;
+import com.softropic.apptemplate.security.common.util.TestRequestMetadataProvider;
 import com.softropic.apptemplate.security.repo.LoginInfoRepository;
 
 import org.junit.jupiter.api.AfterEach;

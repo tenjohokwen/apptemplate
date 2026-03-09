@@ -6,8 +6,8 @@ import com.softropic.apptemplate.common.ClockProvider;
 import com.softropic.apptemplate.security.contract.LoginData;
 import com.softropic.apptemplate.security.common.util.SecurityConstants;
 import com.softropic.apptemplate.security.contract.exception.SecException;
-import com.softropic.apptemplate.security.contract.util.RequestMetadata;
-import com.softropic.apptemplate.security.contract.util.RequestMetadataProvider;
+import com.softropic.apptemplate.security.common.util.RequestMetadata;
+import com.softropic.apptemplate.security.common.util.RequestMetadataProvider;
 import com.softropic.apptemplate.security.repo.LoginInfo;
 import com.softropic.apptemplate.security.repo.LoginInfoRepository;
 

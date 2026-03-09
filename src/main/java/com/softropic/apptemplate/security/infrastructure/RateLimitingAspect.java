@@ -1,7 +1,9 @@
-package com.softropic.apptemplate.security.api.ratelimit;
+package com.softropic.apptemplate.security.infrastructure;
 
 import com.softropic.apptemplate.security.contract.exception.AuthorizationException;
-import com.softropic.apptemplate.security.contract.util.RequestMetadataProvider;
+import com.softropic.apptemplate.security.contract.util.RateLimited;
+import com.softropic.apptemplate.security.service.RateLimitingService;
+import com.softropic.apptemplate.security.common.util.RequestMetadataProvider;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;

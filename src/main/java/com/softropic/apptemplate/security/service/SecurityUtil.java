@@ -4,7 +4,7 @@ package com.softropic.apptemplate.security.service;
 
 import com.softropic.apptemplate.common.Gender;
 import com.softropic.apptemplate.security.contract.util.AuthoritiesConstants;
-import com.softropic.apptemplate.security.contract.util.RequestMetadataProvider;
+import com.softropic.apptemplate.security.common.util.RequestMetadataProvider;
 import com.softropic.apptemplate.security.service.LoginTokenManager;
 import com.softropic.apptemplate.security.contract.Principal;
 

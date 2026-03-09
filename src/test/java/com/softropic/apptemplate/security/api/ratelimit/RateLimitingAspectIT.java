@@ -1,8 +1,11 @@
 package com.softropic.apptemplate.security.api.ratelimit;
 
 import com.softropic.apptemplate.security.contract.exception.AuthorizationException;
-import com.softropic.apptemplate.security.contract.util.RequestMetadata;
-import com.softropic.apptemplate.security.contract.util.RequestMetadataProvider;
+import com.softropic.apptemplate.security.common.util.RequestMetadata;
+import com.softropic.apptemplate.security.common.util.RequestMetadataProvider;
+import com.softropic.apptemplate.security.contract.util.RateLimited;
+import com.softropic.apptemplate.security.infrastructure.RateLimitingAspect;
+import com.softropic.apptemplate.security.service.RateLimitingService;
 
 import org.junit.jupiter.api.Test;
 import org.mockito.MockedStatic;

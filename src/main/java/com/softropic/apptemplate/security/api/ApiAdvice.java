@@ -1,11 +1,11 @@
-package com.softropic.apptemplate.security;
+package com.softropic.apptemplate.security.api;
 
 
 import com.softropic.apptemplate.common.exception.ApplicationException;
 import com.softropic.apptemplate.common.exception.ResourceNotFoundException;
 import com.softropic.apptemplate.common.message.ErrorDto;
 import com.softropic.apptemplate.common.message.ErrorMsg;
-import com.softropic.apptemplate.security.audit.shared.event.SecurityAlertEvent;
+import com.softropic.apptemplate.security.contract.event.SecurityAlertEvent;
 import com.softropic.apptemplate.security.common.event.BadCredentialsEvent;
 import com.softropic.apptemplate.security.contract.exception.ProfileActionException;
 import com.softropic.apptemplate.security.contract.exception.AuthorizationException;
@@ -14,7 +14,7 @@ import com.softropic.apptemplate.security.contract.exception.JWTExpiredException
 import com.softropic.apptemplate.security.contract.exception.JWTTheftException;
 import com.softropic.apptemplate.security.contract.exception.OperationNotAllowedException;
 import com.softropic.apptemplate.security.contract.exception.SecException;
-import com.softropic.apptemplate.security.contract.util.RequestMetadataProvider;
+import com.softropic.apptemplate.security.common.util.RequestMetadataProvider;
 import com.softropic.apptemplate.security.common.event.FraudEvent;
 
 import org.apache.commons.lang3.StringUtils;

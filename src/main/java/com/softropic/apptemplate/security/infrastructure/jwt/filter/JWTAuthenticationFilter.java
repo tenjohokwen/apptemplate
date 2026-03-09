@@ -12,7 +12,7 @@ import com.softropic.apptemplate.security.common.util.CookieUtil;
 import com.softropic.apptemplate.security.common.util.SecurityConstants;
 import com.softropic.apptemplate.security.contract.LoginIdType;
 import com.softropic.apptemplate.security.contract.Principal;
-import com.softropic.apptemplate.security.contract.util.RequestMetadataProvider;
+import com.softropic.apptemplate.security.common.util.RequestMetadataProvider;
 import com.softropic.apptemplate.security.contract.util.ShortCode;
 import com.softropic.apptemplate.security.service.TwoFactorLoginService;
 

@@ -1,4 +1,4 @@
-package com.softropic.apptemplate.security.contract.util;
+package com.softropic.apptemplate.security.common.util;
 
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -10,6 +10,8 @@ import java.util.UUID;
 
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
+
+import com.softropic.apptemplate.security.contract.util.ShortCode;
 
 import static com.softropic.apptemplate.security.common.util.SecurityConstants.ANONYMOUS_SESSION_COOKIE;
 import static com.softropic.apptemplate.security.common.util.SecurityConstants.API_KEY_HEADER;

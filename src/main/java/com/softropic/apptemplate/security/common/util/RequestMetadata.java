@@ -1,4 +1,4 @@
-package com.softropic.apptemplate.security.contract.util;
+package com.softropic.apptemplate.security.common.util;
 
 import org.apache.commons.lang3.StringUtils;
 

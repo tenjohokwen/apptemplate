@@ -1,6 +1,6 @@
 package com.softropic.apptemplate.security.api.registration;
 
-import com.softropic.apptemplate.security.api.ratelimit.RateLimited;
+import com.softropic.apptemplate.security.contract.util.RateLimited;
 import com.softropic.apptemplate.security.repo.User;
 
 import org.slf4j.Logger;

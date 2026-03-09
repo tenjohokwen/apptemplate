@@ -1,4 +1,4 @@
-package com.softropic.apptemplate.security.api.ratelimit;
+package com.softropic.apptemplate.security.contract.util;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

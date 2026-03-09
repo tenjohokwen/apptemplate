@@ -4,7 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.softropic.apptemplate.common.ClockProvider;
 import com.softropic.apptemplate.security.contract.Principal;
 import com.softropic.apptemplate.security.contract.exception.InvalidJWTDataException;
-import com.softropic.apptemplate.security.contract.util.RequestMetadataProvider;
+import com.softropic.apptemplate.security.common.util.RequestMetadataProvider;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import org.apache.commons.lang3.StringUtils;

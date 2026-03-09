@@ -8,8 +8,8 @@ import com.softropic.apptemplate.security.common.event.AuthEvent;
 import com.softropic.apptemplate.security.service.LoginTokenManager;
 import com.softropic.apptemplate.security.contract.exception.SecException;
 import com.softropic.apptemplate.security.contract.exception.SecurityError;
-import com.softropic.apptemplate.security.contract.util.RequestMetadata;
-import com.softropic.apptemplate.security.contract.util.RequestMetadataProvider;
+import com.softropic.apptemplate.security.common.util.RequestMetadata;
+import com.softropic.apptemplate.security.common.util.RequestMetadataProvider;
 import com.softropic.apptemplate.security.contract.util.ShortCode;
 import com.softropic.apptemplate.security.service.TwoFactorLoginService;
 

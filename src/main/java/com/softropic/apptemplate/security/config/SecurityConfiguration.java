@@ -7,9 +7,9 @@ import com.softropic.apptemplate.security.infrastructure.filter.SecondFactorLogi
 import com.softropic.apptemplate.security.infrastructure.filter.SecurityAdviceFilter;
 import com.softropic.apptemplate.security.infrastructure.filter.SessionRefreshFilter;
 import com.softropic.apptemplate.security.infrastructure.AjaxLogoutSuccessHandler;
-import com.softropic.apptemplate.security.contract.exception.ApplicationAccessDeniedHandler;
-import com.softropic.apptemplate.security.contract.exception.AuthenticationExceptionHandler;
-import com.softropic.apptemplate.security.contract.util.RequestMetadata;
+import com.softropic.apptemplate.security.infrastructure.ApplicationAccessDeniedHandler;
+import com.softropic.apptemplate.security.infrastructure.AuthenticationExceptionHandler;
+import com.softropic.apptemplate.security.common.util.RequestMetadata;
 import com.softropic.apptemplate.security.service.SecurityUtil;
 import com.softropic.apptemplate.security.infrastructure.jwt.filter.JWTAuthenticationFilter;
 import com.softropic.apptemplate.security.infrastructure.jwt.filter.JWTAuthorizationFilter;

@@ -3,7 +3,7 @@ package com.softropic.apptemplate.security.service;
 import com.google.common.base.Ticker;
 import com.google.common.testing.FakeTicker;
 
-import com.softropic.apptemplate.security.contract.util.TestRequestMetadataProvider;
+import com.softropic.apptemplate.security.common.util.TestRequestMetadataProvider;
 
 import org.apache.commons.lang3.RandomStringUtils;
 import org.junit.jupiter.api.AfterEach;

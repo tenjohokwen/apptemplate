@@ -3,7 +3,7 @@ package com.softropic.apptemplate.security.infrastructure.jwt;
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.softropic.apptemplate.common.exception.AppSetupException;
-import com.softropic.apptemplate.security.SimpleGrantedAuthorityMixin;
+import com.softropic.apptemplate.security.config.SimpleGrantedAuthorityMixin;
 import com.softropic.apptemplate.security.contract.exception.InvalidJWTDataException;
 import com.softropic.apptemplate.security.service.SecretService;
 import com.softropic.apptemplate.security.repo.Secret;

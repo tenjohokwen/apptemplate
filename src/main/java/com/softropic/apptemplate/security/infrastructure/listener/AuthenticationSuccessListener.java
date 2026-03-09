@@ -4,8 +4,8 @@ package com.softropic.apptemplate.security.infrastructure.listener;
 
 import com.softropic.apptemplate.security.common.event.AuthenticationAction;
 import com.softropic.apptemplate.security.common.event.AuthEvent;
-import com.softropic.apptemplate.security.contract.util.RequestMetadata;
-import com.softropic.apptemplate.security.contract.util.RequestMetadataProvider;
+import com.softropic.apptemplate.security.common.util.RequestMetadata;
+import com.softropic.apptemplate.security.common.util.RequestMetadataProvider;
 import com.softropic.apptemplate.security.service.LoginAttemptConsumer;
 
 import lombok.extern.slf4j.Slf4j;

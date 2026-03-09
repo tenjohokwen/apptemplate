@@ -1,4 +1,4 @@
-package com.softropic.apptemplate.security.contract.exception;
+package com.softropic.apptemplate.security.infrastructure;
 
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.AuthenticationEntryPoint;

@@ -1,5 +1,6 @@
 package com.softropic.apptemplate.security.api.ratelimit;
 
+import com.softropic.apptemplate.security.service.RateLimitingService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

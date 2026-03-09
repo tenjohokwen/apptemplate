@@ -1,4 +1,4 @@
-package com.softropic.apptemplate.security.api.ratelimit;
+package com.softropic.apptemplate.security.service;
 
 import io.github.bucket4j.Bandwidth;
 import io.github.bucket4j.Bucket;

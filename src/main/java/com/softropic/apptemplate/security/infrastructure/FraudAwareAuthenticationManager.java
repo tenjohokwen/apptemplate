@@ -2,8 +2,8 @@ package com.softropic.apptemplate.security.infrastructure;
 
 
 
-import com.softropic.apptemplate.security.contract.util.RequestMetadata;
-import com.softropic.apptemplate.security.contract.util.RequestMetadataProvider;
+import com.softropic.apptemplate.security.common.util.RequestMetadata;
+import com.softropic.apptemplate.security.common.util.RequestMetadataProvider;
 import com.softropic.apptemplate.security.service.LoginDecisionManager;
 
 import org.springframework.security.authentication.AccountStatusException;

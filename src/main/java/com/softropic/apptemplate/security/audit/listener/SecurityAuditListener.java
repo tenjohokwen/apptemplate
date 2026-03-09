@@ -6,11 +6,11 @@ import com.softropic.apptemplate.common.ClockProvider;
 import com.softropic.apptemplate.common.exception.ApplicationException;
 import com.softropic.apptemplate.security.audit.api.AuditTrail;
 import com.softropic.apptemplate.security.audit.service.TrailService;
-import com.softropic.apptemplate.security.audit.shared.event.SecurityAlertEvent;
+import com.softropic.apptemplate.security.contract.event.SecurityAlertEvent;
 import com.softropic.apptemplate.security.common.event.AuthEvent;
 import com.softropic.apptemplate.security.contract.Principal;
-import com.softropic.apptemplate.security.contract.util.RequestMetadata;
-import com.softropic.apptemplate.security.contract.util.RequestMetadataProvider;
+import com.softropic.apptemplate.security.common.util.RequestMetadata;
+import com.softropic.apptemplate.security.common.util.RequestMetadataProvider;
 import com.softropic.apptemplate.security.service.SecurityUtil;
 
 import lombok.extern.slf4j.Slf4j;

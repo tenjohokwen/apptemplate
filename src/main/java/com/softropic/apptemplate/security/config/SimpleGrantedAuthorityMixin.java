@@ -1,4 +1,4 @@
-package com.softropic.apptemplate.security;
+package com.softropic.apptemplate.security.config;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;

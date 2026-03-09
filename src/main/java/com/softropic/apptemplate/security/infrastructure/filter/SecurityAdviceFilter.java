@@ -2,7 +2,7 @@ package com.softropic.apptemplate.security.infrastructure.filter;
 
 
 
-import com.softropic.apptemplate.security.contract.util.RequestMetadataProvider;
+import com.softropic.apptemplate.security.common.util.RequestMetadataProvider;
 import com.softropic.apptemplate.security.infrastructure.jwt.JwtSecretService;
 
 import lombok.extern.slf4j.Slf4j;

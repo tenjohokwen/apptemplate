@@ -2,7 +2,7 @@ package com.softropic.apptemplate.common.persistence;
 
 
 
-import com.softropic.apptemplate.security.contract.util.RequestIdProvider;
+import com.softropic.apptemplate.security.common.util.RequestIdProvider;
 
 import jakarta.persistence.PrePersist;
 import jakarta.persistence.PreRemove;
