@@ -330,7 +330,7 @@ public class User extends Customer implements Serializable {
                 + super.toString()
                 + ", \"login\":\"" + login + "\""
                 + ", \"loginIdType\":\"" + loginIdType + "\""
-                + ", \"password\":\"" + password + "\""
+                + ", \"password\": \"[REDACTED]\""
                 + ", \"activated\":\"" + activated + "\""
                 + ", \"locked\":\"" + locked + "\""
                 + ", \"activationKey\":\"" + activationKey + "\""

@@ -66,11 +66,14 @@ import static net.logstash.logback.argument.StructuredArguments.entries;
 public class ApiAdvice {
     private static final Sqids SQIDS = Sqids.builder().alphabet("ZG8K7aeb9hALF3OcTw5SNMQqC1oVJvtEsljDnIfx0zyH2rdRpmYUkP46guXiBW").build();
 
-    @Autowired
-    private MessageSource messageSource;
+    private final MessageSource messageSource;
 
-    @Autowired
-    private ApplicationEventPublisher publisher;
+    private final ApplicationEventPublisher publisher;
+
+    public ApiAdvice(MessageSource messageSource, ApplicationEventPublisher publisher) {
+        this.messageSource = messageSource;
+        this.publisher = publisher;
+    }
 
     /**
      * Default handler for all exception which are not caught by the handlers below.

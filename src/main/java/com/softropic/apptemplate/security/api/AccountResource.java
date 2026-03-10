@@ -48,17 +48,23 @@ public class AccountResource {
 
     private final Logger log = LoggerFactory.getLogger(AccountResource.class);
 
-    @Autowired
-    private UserService userService;
+    private final UserService userService;
 
-    @Autowired
-    private UserRegistrationService userRegistrationService;
+    private final UserRegistrationService userRegistrationService;
 
-    @Autowired
-    private UserMapper userMapper;
+    private final UserMapper userMapper;
 
-    @Autowired
-    private AccountManagementFacade accountManagementFacade;
+    private final AccountManagementFacade accountManagementFacade;
+
+    public AccountResource(UserService userService,
+                           UserRegistrationService userRegistrationService,
+                           UserMapper userMapper,
+                           AccountManagementFacade accountManagementFacade) {
+        this.userService = userService;
+        this.userRegistrationService = userRegistrationService;
+        this.userMapper = userMapper;
+        this.accountManagementFacade = accountManagementFacade;
+    }
 
     /**
      * POST  /register to register the user.

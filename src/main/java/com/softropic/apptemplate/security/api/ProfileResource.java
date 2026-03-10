@@ -49,17 +49,23 @@ public class ProfileResource {
 
     private final Logger log = LoggerFactory.getLogger(ProfileResource.class);
 
-    @Autowired
-    private UserService userService;
+    private final UserService userService;
 
-    @Autowired
-    private UserMapper userMapper;
+    private final UserMapper userMapper;
 
-    @Autowired
-    private AccountManagementFacade accountManagementFacade;
+    private final AccountManagementFacade accountManagementFacade;
 
-    @Autowired
-    private UserProfileService userProfileService;
+    private final UserProfileService userProfileService;
+
+    public ProfileResource(UserService userService,
+                           UserMapper userMapper,
+                           AccountManagementFacade accountManagementFacade,
+                           UserProfileService userProfileService) {
+        this.userService = userService;
+        this.userMapper = userMapper;
+        this.accountManagementFacade = accountManagementFacade;
+        this.userProfileService = userProfileService;
+    }
 
     /**
      * GET /api/account/profile to get the current user's profile.
