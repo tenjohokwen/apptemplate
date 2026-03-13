@@ -28,6 +28,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.Duration;
 import java.time.Instant;
@@ -44,6 +45,7 @@ import static com.softropic.apptemplate.security.contract.exception.SecurityErro
 
 
 @Service
+@Transactional
 public class AccountManagementFacade {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(AccountManagementFacade.class);
