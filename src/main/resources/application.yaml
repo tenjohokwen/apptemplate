@@ -129,6 +129,15 @@ management:
     health:
       show-details: when-authorized
       roles: ROLE_ADMIN
+  tracing:
+    sampling:
+      probability: 1.0
+  otlp:
+    tracing:
+      endpoint: "http://localhost:4318/v1/traces"
+  observations:
+    key-values:
+      application: ${spring.application.name}
 defaultTcpConfig: &DEFAULT_TCP
   readTimeout: 15000
   connectionTimeout: 15000

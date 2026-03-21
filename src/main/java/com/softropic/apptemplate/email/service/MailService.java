@@ -18,10 +18,12 @@ import java.nio.charset.StandardCharsets;
 import java.util.Locale;
 import java.util.Map;
 
+import io.micrometer.observation.annotation.Observed;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
 
 @Service
+@Observed(name = "mail.service")
 public class MailService {
 
     private final Logger log = LoggerFactory.getLogger(MailService.class);
